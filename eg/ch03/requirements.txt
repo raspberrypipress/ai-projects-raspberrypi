@@ -8,3 +8,4 @@ ipywidgets
 jupyterlab
 scikit-learn
 statsmodels
+ipykernel
