@@ -1,6 +1,6 @@
 # Get started with Machine Learning
 
-Before you get into the AI projects that are the heart of this book, this chapter shows you some fundamental machine learning techniques that will introduce you to modeling and inference. 
+Before you get into the AI projects that are the heart of this book, this chapter shows you some fundamental machine learning techniques that will introduce you to modelling and inference. 
 
 Before you run these, you should [create a virtual environment](https://www.raspberrypi.com/news/using-python-with-virtual-environments-the-magpi-148/) and then run the command `pip install -r requirements.txt`.
 
