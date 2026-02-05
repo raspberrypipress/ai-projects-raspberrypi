@@ -1,11 +1,10 @@
 pandas
-matplotlib
 numpy
-psutil
-tqdm
+matplotlib
 seaborn
-ipywidgets
 jupyterlab
+tqdm
+psutil
 scikit-learn
-statsmodels
-ipykernel
+nbdime
+tensorflow
