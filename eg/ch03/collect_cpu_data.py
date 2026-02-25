@@ -10,19 +10,27 @@ import sys
 # Intuitively, we all know these are related.
 # But can some of these predict the others? Reliably?
 
+# vgencmd returns results in a format like "frequency(0)=1500019456",
+# "volt=0.8898V", or "temp=45.2'C" so we need to extract the numbers.
+def extract_number(s):
+    match = re.search(r"=(\d+(\.\d+)?)", s)
+    if match:
+        return float(match.group(1))
+    else:
+        raise ValueError(f"No number found in string: {s}")
+
 def get_cpu_speed():
     val = os.popen("vcgencmd measure_clock arm").read()
-    return float(val[val.find("=")+1:]) / 10**9
-
+    return extract_number(val) / 10**9
 
 def get_cpu_temp():
     val = os.popen("vcgencmd measure_temp").read()
-    return float(re.search(r"temp=([\d\.]+)", val)[1])
-
+    return extract_number(val)
 
 def get_volts():
     val = os.popen("vcgencmd measure_volts").read()
-    return float(re.search(r"volt=([\d\.]+)", val)[1])
+    return extract_number(val)
+
 
 numsamples = 5000
 samples = []
