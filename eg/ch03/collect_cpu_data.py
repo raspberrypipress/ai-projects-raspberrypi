@@ -32,7 +32,7 @@ def get_volts():
     return extract_number(val)
 
 
-numsamples = 5000
+numsamples = 2500
 samples = []
 for i in range(numsamples):
     samples.append([get_cpu_speed(), get_volts(), psutil.cpu_percent(), psutil.getloadavg()[0], get_cpu_temp()])
