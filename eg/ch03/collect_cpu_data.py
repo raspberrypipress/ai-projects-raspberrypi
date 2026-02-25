@@ -25,7 +25,7 @@ def get_volts():
 
 numsamples = 2500
 samples = []
-for i in trange(numsamples):
+for i in range(numsamples):
     samples.append([get_cpu_speed(), get_volts(), psutil.cpu_percent(), psutil.getloadavg()[0], get_cpu_temp()])
     time.sleep(0.25)
 
