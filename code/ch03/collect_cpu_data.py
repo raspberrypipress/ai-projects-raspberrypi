@@ -4,7 +4,7 @@ import os
 import re
 import time
 from datetime import datetime
-import sys
+from tqdm import trange
 
 # Collect some CPU activity/thermal data
 # Intuitively, we all know these are related.
@@ -34,11 +34,11 @@ def get_volts():
 
 numsamples = 2500
 samples = []
-for i in range(numsamples):
+pbar = trange(numsamples)
+for i in pbar:
     samples.append([get_cpu_speed(), get_volts(), psutil.cpu_percent(), psutil.getloadavg()[0], get_cpu_temp()])
-    sys.stdout.write("\033[K")
-    print(f"Sample {i+1}/{numsamples}: {samples[-1]}", end="\r")
     time.sleep(0.25)
+    pbar.set_description(f"{samples[-1][0]:.2f}GHz {samples[-1][1]:.2f}V {samples[-1][2]:.1f}% {samples[-1][3]:.2f} {samples[-1][4]:.2f}C ")
 
 df = pd.DataFrame(samples)
 df.columns = ['cpu_speed', 'volts', 'cpu_pct', 'load_avg', 'temp']
