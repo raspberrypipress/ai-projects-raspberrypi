@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
         samples.append(r)
         pbar.set_description(
-            f"{r[0]}GHz {r[1]}V {r[2]}% {r[3]} {r[4]}C")
+            f"{r[0]:.2f}GHz {r[1]:.2f}V {r[2]}% {r[3]} {r[4]}C")
         time.sleep(0.25)
 
     df = pd.DataFrame(samples)
