@@ -14,10 +14,7 @@ from tqdm import trange
 # "volt=0.8898V", or "temp=45.2'C" so we need to extract the numbers.
 def extract_number(s):
     match = re.search(r"=(\d+(\.\d+)?)", s)
-    if match:
-        return float(match.group(1))
-    else:
-        raise ValueError(f"No number found in string: {s}")
+    return round(float(match.group(1)), 4)
 
 def get_cpu_speed():
     val = os.popen("vcgencmd measure_clock arm").read()
@@ -31,14 +28,14 @@ def get_volts():
     val = os.popen("vcgencmd measure_volts").read()
     return extract_number(val)
 
-
 numsamples = 2500
 samples = []
 pbar = trange(numsamples)
 for i in pbar:
-    samples.append([get_cpu_speed(), get_volts(), psutil.cpu_percent(), psutil.getloadavg()[0], get_cpu_temp()])
+    r = [get_cpu_speed(), get_volts(), psutil.cpu_percent(), psutil.getloadavg()[0], get_cpu_temp()]
+    samples.append(r)
     time.sleep(0.25)
-    pbar.set_description(f"{samples[-1][0]:.2f}GHz {samples[-1][1]:.2f}V {samples[-1][2]:.1f}% {samples[-1][3]:.2f} {samples[-1][4]:.2f}C ")
+    pbar.set_description(f"{r[0]}GHz {r[1]}V {r[2]}% {r[3]} {r[4]}C ")
 
 df = pd.DataFrame(samples)
 df.columns = ['cpu_speed', 'volts', 'cpu_pct', 'load_avg', 'temp']
