@@ -1,8 +1,3 @@
-# First, make a venv, activate it, then do pip install moonshine-voice
-# Run `apt install libportaudio2 pavucontrol pulseaudio-utils` beforehand, then
-# follow these steps to capture system audio
-# https://unix.stackexchange.com/questions/82259/how-to-pipe-audio-output-to-mic-input/82297#82297
-
 from moonshine_voice.mic_transcriber import MicTranscriber
 from moonshine_voice import get_model_for_language, ModelArch
 from moonshine_voice.transcriber import TranscriptEventListener
