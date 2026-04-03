@@ -38,7 +38,8 @@ if __name__ == "__main__":
         wanted_language=lang, wanted_model_arch=stt_model
     )
 
-    # FIXME: move the mt stuff into a class, and pass an object to the listener instead of using variables
+    # TODO: move the mt stuff into a class, and pass an object to the listener instead of using variables
+    # TODO: adopt a multiprocessing model so we can use one core for transcription and the other for translation
     mt_model_name = "Helsinki-NLP/opus-mt-en-de"
     tokenizer = MarianTokenizer.from_pretrained(mt_model_name)
     mt_model = MarianMTModel.from_pretrained(mt_model_name)
