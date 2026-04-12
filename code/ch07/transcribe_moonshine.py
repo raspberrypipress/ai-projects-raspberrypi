@@ -28,8 +28,8 @@ if __name__ == "__main__":
     mic_transcriber.add_listener(FileListener())
     mic_transcriber.start()
 
-    # Keep running until the user presses Ctrl+C.
-    print(f"Ctrl+C to stop...", file=sys.stderr)
+    # Keep running until the user presses CTRL+C.
+    print(f"CTRL+C to stop...", file=sys.stderr)
     try:
         while True:
             time.sleep(0.1)
