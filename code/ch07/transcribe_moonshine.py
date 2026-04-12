@@ -21,6 +21,7 @@ if __name__ == "__main__":
     mic_transcriber = MicTranscriber(model_path=model_path,
                                      model_arch=model_arch,
                                      blocksize=4096,
+                                     channels=1,
                                      options=options)
 
     listener = FileListener()
