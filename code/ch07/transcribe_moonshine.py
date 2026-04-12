@@ -17,7 +17,9 @@ if __name__ == "__main__":
         wanted_language=lang, wanted_model_arch=model
     )
 
-    options = {"return_audio_data": False, "identify_speakers": False}
+    options = {"return_audio_data": False, 
+               "identify_speakers": False,
+               "transcription_interval": 2.0}
     mic_transcriber = MicTranscriber(model_path=model_path,
                                      model_arch=model_arch,
                                      samplerate=8000,
