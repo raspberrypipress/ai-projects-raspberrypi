@@ -18,8 +18,7 @@ if __name__ == "__main__":
     )
 
     options = {"return_audio_data": False, 
-               "identify_speakers": False,
-               "transcription_interval": 1.0}
+               "identify_speakers": False}
     mic_transcriber = MicTranscriber(model_path=model_path,
                                      model_arch=model_arch,
                                      options=options)
