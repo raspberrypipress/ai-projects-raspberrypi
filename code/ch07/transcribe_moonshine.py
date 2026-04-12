@@ -12,14 +12,14 @@ class FileListener(TranscriptEventListener):
 if __name__ == "__main__":
 
     lang = "en"
-    model = ModelArch.TINY
+    model = ModelArch.TINY_STREAMING
     model_path, model_arch = get_model_for_language(
         wanted_language=lang, wanted_model_arch=model
     )
 
     options = {"return_audio_data": False, 
                "identify_speakers": False,
-               "transcription_interval": 2.0}
+               "transcription_interval": 1.0}
     mic_transcriber = MicTranscriber(model_path=model_path,
                                      model_arch=model_arch,
                                      options=options)
