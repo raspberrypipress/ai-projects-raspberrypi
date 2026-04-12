@@ -17,10 +17,12 @@ if __name__ == "__main__":
         wanted_language=lang, wanted_model_arch=model
     )
 
-    options = {"return_audio_data": False}
+    options = {"return_audio_data": False, "identify_speakers": False}
     mic_transcriber = MicTranscriber(model_path=model_path,
                                      model_arch=model_arch,
                                      samplerate=8000,
+                                     channels=1,
+                                     blocksize=2048,
                                      options=options)
 
     listener = FileListener()
