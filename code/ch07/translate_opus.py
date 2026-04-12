@@ -11,7 +11,6 @@ if __name__ == "__main__":
     print(f"CTRL+C to stop...", file=sys.stderr)
     try:
         for line in sys.stdin:
-            print(line)
             inputs = tokenizer(line.strip(),
                                return_tensors="pt",
                                padding=True,
