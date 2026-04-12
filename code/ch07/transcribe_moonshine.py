@@ -20,6 +20,7 @@ if __name__ == "__main__":
     options = {"return_audio_data": False}
     mic_transcriber = MicTranscriber(model_path=model_path,
                                      model_arch=model_arch,
+                                     sample_rate=8000,
                                      options=options)
 
     listener = FileListener()
