@@ -13,7 +13,7 @@ led = LED(3)
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
     print("LED turned on.")
-def led_off():
+def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
     print("LED turned off.")
 
