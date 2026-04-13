@@ -19,6 +19,5 @@ if __name__ == "__main__":
             r = tokenizer.decode(translated, 
                                  skip_special_tokens=True)
             print(r[0])
-
     except KeyboardInterrupt:
         print("Finished!", file=sys.stderr)
