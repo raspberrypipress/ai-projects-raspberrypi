@@ -1,6 +1,9 @@
-from moonshine_voice.mic_transcriber import MicTranscriber
-from moonshine_voice import get_model_for_language, ModelArch
-from moonshine_voice.transcriber import TranscriptEventListener
+from moonshine_voice import (
+    MicTranscriber,
+    get_model_for_language,
+    ModelArch,
+    TranscriptEventListener,
+)
 import time
 import sys
 

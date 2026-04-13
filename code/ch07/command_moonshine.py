@@ -10,35 +10,37 @@ import sys
 from gpiozero import LED
 
 led = LED(3)
+
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
     print("LED turned on.")
+
 def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
     print("LED turned off.")
 
+
 if __name__ == "__main__":
 
+    # Load the embedding model for intent recognition.
     embedding_model_path, embedding_model_arch = get_embedding_model(
         "embeddinggemma-300m", "q4"
     )
 
+    # Set up the intent recognizer and register some intents.
     intent_recognizer = IntentRecognizer(
         model_path=embedding_model_path,
         model_arch=embedding_model_arch,
         model_variant="q4",
         threshold=0.6,
     )
-
     intent_recognizer.register_intent("turn on the L E D", led_on)
     intent_recognizer.register_intent("turn off the L E D", led_off)
 
-    # Load the model for the language we want to transcribe.
+    # Configure the transcription engine.
     model_path, model_arch = get_model_for_language(
         "en", ModelArch.TINY_STREAMING
     )
-
-    # Configure the transcriber.
     options = {"return_audio_data": False, 
                "identify_speakers": False}
     mic_transcriber = MicTranscriber(model_path=model_path,
