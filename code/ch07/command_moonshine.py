@@ -10,7 +10,7 @@ import sys
 from gpiozero import LED
 
 led = LED(3)
-def led_on():
+def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
     print("LED turned on.")
 def led_off():
