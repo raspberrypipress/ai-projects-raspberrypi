@@ -19,7 +19,12 @@ def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
     print("LED turned off.")
 
+def stop_program(trigger: str, utterance: str, similarity: float):
+    global running
+    running = False
 
+
+running = True
 if __name__ == "__main__":
 
     # Load the embedding model for intent recognition.
@@ -28,14 +33,15 @@ if __name__ == "__main__":
     )
 
     # Set up the intent recognizer and register some intents.
-    intent_recognizer = IntentRecognizer(
+    recogniser = IntentRecognizer(
         model_path=embedding_model_path,
         model_arch=embedding_model_arch,
         model_variant="q4",
         threshold=0.6,
     )
-    intent_recognizer.register_intent("turn on the L E D", led_on)
-    intent_recognizer.register_intent("turn off the L E D", led_off)
+    recogniser.register_intent("turn on the L E D", led_on)
+    recogniser.register_intent("turn off the L E D", led_off)
+    recogniser.register_intent("quit", stop_program)
 
     # Configure the transcription engine.
     model_path, model_arch = get_model_for_language(
@@ -48,16 +54,13 @@ if __name__ == "__main__":
                                      options=options)
 
     # Add the recognizer to the transcriber, and start it.
-    mic_transcriber.add_listener(intent_recognizer)
+    mic_transcriber.add_listener(recogniser)
     mic_transcriber.start()
 
     # Keep running until the user presses CTRL+C.
-    print(f"CTRL+C to stop...", file=sys.stderr)
-    try:
-        while True:
-            time.sleep(0.1)
-    except KeyboardInterrupt:
-        print("Finished.", file=sys.stderr)
-    finally:
-        mic_transcriber.stop()
-        mic_transcriber.close()
+    print('Say "quit" to stop...', file=sys.stderr)
+    while running:
+        time.sleep(0.1)
+
+    mic_transcriber.stop()
+    mic_transcriber.close()
