@@ -19,7 +19,7 @@ def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
     print("LED turned off.")
 
-def stop_program(trigger: str, utterance: str, similarity: float):
+def quit(trigger: str, utterance: str, similarity: float):
     global running
     running = False
 
@@ -28,20 +28,20 @@ running = True
 if __name__ == "__main__":
 
     # Load the embedding model for intent recognition.
-    embedding_model_path, embedding_model_arch = get_embedding_model(
+    embeddings_path, embeddings_arch = get_embedding_model(
         "embeddinggemma-300m", "q4"
     )
 
     # Set up the intent recognizer and register some intents.
     recogniser = IntentRecognizer(
-        model_path=embedding_model_path,
-        model_arch=embedding_model_arch,
+        model_path=embeddings_path,
+        model_arch=embeddings_arch,
         model_variant="q4",
         threshold=0.6,
     )
     recogniser.register_intent("turn on the L E D", led_on)
     recogniser.register_intent("turn off the L E D", led_off)
-    recogniser.register_intent("quit", stop_program)
+    recogniser.register_intent("quit", quit)
 
     # Configure the transcription engine.
     model_path, model_arch = get_model_for_language(
@@ -61,6 +61,7 @@ if __name__ == "__main__":
     print('Say "quit" to stop...', file=sys.stderr)
     while running:
         time.sleep(0.1)
+        print(".", end="", flush=True)
 
     mic_transcriber.stop()
     mic_transcriber.close()
