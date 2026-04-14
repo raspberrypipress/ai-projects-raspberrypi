@@ -61,7 +61,6 @@ if __name__ == "__main__":
     print('Say "quit" to stop...', file=sys.stderr)
     while running:
         time.sleep(0.1)
-        print(".", end="", flush=True)
 
     mic_transcriber.stop()
     mic_transcriber.close()
