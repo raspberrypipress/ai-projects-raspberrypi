@@ -39,8 +39,8 @@ if __name__ == "__main__":
         model_variant="q4",
         threshold=0.6,
     )
-    recogniser.register_intent("turn on the L E D", led_on)
-    recogniser.register_intent("turn off the L E D", led_off)
+    recogniser.register_intent("turn on the light", led_on)
+    recogniser.register_intent("turn off the light", led_off)
     recogniser.register_intent("quit", quit)
 
     # Configure the transcription engine.
