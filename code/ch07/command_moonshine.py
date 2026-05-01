@@ -1,14 +1,15 @@
 from moonshine_voice import (
-    IntentRecognizer,
     MicTranscriber,
-    ModelArch,
-    get_embedding_model,
     get_model_for_language,
+    ModelArch,
+    IntentRecognizer,
+    get_embedding_model,
 )
 import time
 import sys
 from gpiozero import LED
 
+running = True
 led = LED(3)
 
 def led_on(trigger: str, utterance: str, similarity: float):
@@ -22,9 +23,9 @@ def led_off(trigger: str, utterance: str, similarity: float):
 def quit(trigger: str, utterance: str, similarity: float):
     global running
     running = False
+    print("I'm glad we had this little talk.")
 
 
-running = True
 if __name__ == "__main__":
 
     # Load the embedding model for intent recognition.
