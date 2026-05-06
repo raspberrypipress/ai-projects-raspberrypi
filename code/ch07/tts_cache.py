@@ -18,9 +18,9 @@ tts_cache = {}
 def say(text):
     if text not in tts_cache:
         audio, sample_rate = tts.synthesize(text)
+        print(f"Synthesizing: {text}")
         tts_cache["text"] = {"audio": audio,
                              "rate": sample_rate}
-    print(f"Speaking: {text}")
     sd.play(tts_cache["text"]["audio"],
             tts_cache["text"]["rate"])
 
