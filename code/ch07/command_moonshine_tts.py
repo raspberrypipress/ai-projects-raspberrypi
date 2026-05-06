@@ -19,16 +19,16 @@ def say(text):
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
-    print("LED turned on.")
+    say("LED turned on.")
 
 def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
-    print("LED turned off.")
+    say("LED turned off.")
 
 def quit(trigger: str, utterance: str, similarity: float):
     global running
     running = False
-    print("I'm glad we had this little talk.")
+    say("I'm glad we had this little talk.")
 
 
 if __name__ == "__main__":
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     mic_transcriber.start()
 
     # Keep running until the user presses CTRL+C.
-    print('Say "quit" to stop...', file=sys.stderr)
+    say('Say "quit" to stop...')
     while running:
         time.sleep(0.1)
 
