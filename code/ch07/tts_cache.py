@@ -38,7 +38,7 @@ def led_off(trigger: str, utterance: str, similarity: float):
 def quit(trigger: str, utterance: str, similarity: float):
     global running
     running = False
-    print("I'm glad we had this little talk.")
+    print("Farewell.")
 
 
 if __name__ == "__main__":
