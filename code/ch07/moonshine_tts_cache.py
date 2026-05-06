@@ -9,19 +9,21 @@ from moonshine_voice import (
 import time
 import sys
 from gpiozero import LED
+import sounddevice as sd
 
 running = True
 led = LED(25)
 tts = TextToSpeech("en")
 tts_cache = {}
-import sounddevice as sd
 def say(text):
     if text not in tts_cache:
         audio, sample_rate = tts.synthesize(text)
         tts_cache["text"] = {"audio": audio,
-                             "rate", sample_rate}
+                             "rate": sample_rate}
     print(f"Speaking: {text}")
-    sd.play(tts_cache["text"]["audio"], tts_cache["text"]["rate"])
+    sd.play(tts_cache["text"]["audio"],
+            tts_cache["text"]["rate"])
+
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
