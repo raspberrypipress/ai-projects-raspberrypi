@@ -20,11 +20,11 @@ def say(text):
     if text not in tts_cache:
         print(f"Synthesizing: {text}")
         audio, sample_rate = tts.synthesize(text)
-        tts_cache["text"] = {"audio": audio,
-                             "rate": sample_rate}
+        tts_cache[text] = {"audio": audio,
+                           "rate": sample_rate}
 
-    sd.play(tts_cache["text"]["audio"],
-            tts_cache["text"]["rate"])
+    sd.play(tts_cache[text]["audio"],
+            tts_cache[text]["rate"])
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
