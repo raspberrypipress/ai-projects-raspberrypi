@@ -25,6 +25,7 @@ def say(text):
 
     sd.play(tts_cache[text]["audio"],
             tts_cache[text]["rate"])
+    sd.wait()
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
@@ -79,4 +80,3 @@ if __name__ == "__main__":
 
     mic_transcriber.stop()
     mic_transcriber.close()
-    sd.wait()
