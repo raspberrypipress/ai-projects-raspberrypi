@@ -79,3 +79,4 @@ if __name__ == "__main__":
 
     mic_transcriber.stop()
     mic_transcriber.close()
+    sd.wait()
