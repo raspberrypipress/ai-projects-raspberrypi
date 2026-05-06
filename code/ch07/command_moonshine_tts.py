@@ -16,6 +16,7 @@ tts = TextToSpeech("en")
 def say(text):
     print(f"Speaking: {text}")
     tts.say(text)
+    tts.wait()
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
