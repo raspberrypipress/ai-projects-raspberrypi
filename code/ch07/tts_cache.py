@@ -16,14 +16,15 @@ led = LED(25)
 tts = TextToSpeech("en")
 tts_cache = {}
 def say(text):
+    global tts_cache
     if text not in tts_cache:
-        audio, sample_rate = tts.synthesize(text)
         print(f"Synthesizing: {text}")
+        audio, sample_rate = tts.synthesize(text)
         tts_cache["text"] = {"audio": audio,
                              "rate": sample_rate}
+
     sd.play(tts_cache["text"]["audio"],
             tts_cache["text"]["rate"])
-
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
