@@ -29,11 +29,11 @@ def say(text):
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
-    say("LED turned on.")
+    say("L E D turned on.")
 
 def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
-    say("LED turned off.")
+    say("L E D turned off.")
 
 def quit(trigger: str, utterance: str, similarity: float):
     global running
