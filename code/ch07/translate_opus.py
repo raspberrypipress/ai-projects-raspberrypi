@@ -2,13 +2,13 @@ from transformers import MarianMTModel, MarianTokenizer
 import sys
 from nltk.tokenize import sent_tokenize
 import signal
-signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 # Load the model and tokenizer.
 mt_model_name = "Helsinki-NLP/opus-mt-en-de"
 tokeniser = MarianTokenizer.from_pretrained(mt_model_name)
 mt_model = MarianMTModel.from_pretrained(mt_model_name)
 
+signal.signal(signal.SIGINT, signal.SIG_IGN)
 print(f"Ready.", file=sys.stderr)
 for text in sys.stdin:
     # Break the text into sentences.
