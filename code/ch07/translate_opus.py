@@ -21,4 +21,4 @@ for text in sys.stdin:
         for sentence in decoded:
             print(sentence)
 
-print("Finished.", file=sys.stderr)
+print("Translation finished.", file=sys.stderr)
