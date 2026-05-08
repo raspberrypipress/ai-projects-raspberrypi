@@ -9,26 +9,19 @@ if __name__ == "__main__":
     tokenizer = MarianTokenizer.from_pretrained(mt_model_name)
     mt_model = MarianMTModel.from_pretrained(mt_model_name)
 
-    print(f"CTRL+C to stop...", file=sys.stderr)
-    try:
-        for text in sys.stdin:
-            # Break the input text into sentences.
-            sentences = sent_tokenize(text)
+    print(f"Ready.", file=sys.stderr)
+    for text in sys.stdin:
 
-            # Translate the sentences as a batch.
-            inputs = tokenizer(sentences,
-                               return_tensors="pt",
-                               padding=True,
-                               truncation=True,
-                               )
+        # Break the text into sentences.
+        for sentence in sent_tokenize(text):
+
+            inputs = tokenizer(sentence, return_tensors="pt")
             translated = mt_model.generate(**inputs)
 
             # Decode and print the translated sentences.
             decoded = tokenizer.decode(translated, 
-                                       skip_special_tokens=True
-                                      )
+                                    skip_special_tokens=True)
             for sentence in decoded:
                 print(sentence)
 
-    except KeyboardInterrupt:
-        print("Finished!", file=sys.stderr)
+    print("Finished.", file=sys.stderr)
