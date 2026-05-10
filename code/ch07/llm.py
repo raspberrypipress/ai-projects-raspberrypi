@@ -20,7 +20,7 @@ if __name__ == "__main__":
         params = VDevice.create_params()
         params.group_id = SHARED_VDEVICE_GROUP_ID
         vdevice = VDevice(params)
-        print("Hailo device initialized", file=sys.stderr)
+        print("Hailo device initialized. Loading model...", file=sys.stderr)
 
         llm = LLM(vdevice, str(hef_path))
         print("Model loaded successfully", file=sys.stderr )
@@ -30,6 +30,7 @@ if __name__ == "__main__":
             user_input = input()
             if user_input.lower() in ["quit", "exit", "bye"]:
                 break
+            print(f"User input: {user_input}", file=sys.stderr)
             messages.append(message_formatter.messages_user(user_input))
 
             response = llm.generate_all(prompt=messages, temperature=0.1, seed=42, max_generated_tokens=512)
