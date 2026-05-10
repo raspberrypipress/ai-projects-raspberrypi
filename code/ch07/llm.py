@@ -8,6 +8,9 @@ from hailo_apps.python.gen_ai_apps.gen_ai_utils.llm_utils import (
 from hailo_apps.python.core.common.defines import SHARED_VDEVICE_GROUP_ID
 from pathlib import Path
 import sys
+import signal
+
+signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 if __name__ == "__main__":
 
