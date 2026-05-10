@@ -26,10 +26,8 @@ if __name__ == "__main__":
         print("Model loaded successfully", file=sys.stderr )
 
         messages = [message_formatter.messages_system("You are a helpful assistant.")]
-        while True:
-            user_input = input()
-            if user_input.lower() in ["quit", "exit", "bye"]:
-                break
+        for text in sys.stdin:
+            user_input = text.strip()
             print(f"User input: {user_input}", file=sys.stderr)
             messages.append(message_formatter.messages_user(user_input))
 
