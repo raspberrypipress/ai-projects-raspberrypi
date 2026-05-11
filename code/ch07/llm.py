@@ -13,13 +13,12 @@ import sys
 import signal
 from rich.console import Console
 
-console = Console()
-signal.signal(signal.SIGINT, signal.SIG_IGN)
+console = Console(stderr=True)
 # model_name = "Qwen3-1.7B-Instruct"
 model_name = "Qwen2-1.5B-Instruct"
 
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
-print(f"Using model {hef_path}", file=sys.stderr)
+console.log(f"Using model {hef_path}")
 
 vdevice = None
 llm = None
@@ -27,16 +26,17 @@ try:
     params = VDevice.create_params()
     params.group_id = SHARED_VDEVICE_GROUP_ID
     vdevice = VDevice(params)
-    print("Loading model...", file=sys.stderr)
+    console.log("Loading model...")
 
     llm = LLM(vdevice, str(hef_path))
-    print("Model loaded.", file=sys.stderr )
+    console.log("Model loaded.")
 
     prompt = "You are a helpful assistant."
     messages = [message_formatter.messages_system(prompt)]
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
     for text in sys.stdin:
         msg = message_formatter.messages_user(text.strip())
-        print(f"User input: {text}", file=sys.stderr)
+        console.log(f"User input: {text}")
         messages.append(msg)
 
         r = ""
@@ -47,17 +47,17 @@ try:
             with console.status("[bold green]Thinking..."):
                 for token in gen:
                     r += token
-        print(f"Raw response: {r}", file=sys.stderr)
+        console.log(f"Raw response: {r}")
         r = r.split(". [{'type'")[0]
         r = r.replace("<|im_end|>", "")
-        print(r, file=sys.stderr)
+        print(r)
         response = message_formatter.messages_assistant(r)
         messages.append(response)
         context_manager.print_context_usage(llm)
-    print("Farewell from llm.py", file=sys.stderr)
+    console.log("Farewell from llm.py")
 
 except Exception as e:
-    print(f"Error occurred: {e}", file=sys.stderr)
+    console.log(f"Error occurred: {e}")
     sys.exit(1)
 
 finally:
