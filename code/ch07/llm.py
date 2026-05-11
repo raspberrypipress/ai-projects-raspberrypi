@@ -18,7 +18,7 @@ console = Console(stderr=True)
 model_name = "Qwen2-1.5B-Instruct"
 
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
-console.log(f"Using model {hef_path}")
+console.print(f"Using model {hef_path}")
 
 vdevice = None
 llm = None
@@ -26,10 +26,10 @@ try:
     params = VDevice.create_params()
     params.group_id = SHARED_VDEVICE_GROUP_ID
     vdevice = VDevice(params)
-    console.log("Loading model...")
+    console.print("Loading model...")
 
     llm = LLM(vdevice, str(hef_path))
-    console.log("Model loaded.")
+    console.print("Model loaded.")
 
     prompt = "You are a helpful assistant."
     messages = [message_formatter.messages_system(prompt)]
@@ -54,7 +54,7 @@ try:
         response = message_formatter.messages_assistant(r)
         messages.append(response)
         context_manager.print_context_usage(llm)
-    console.log("Farewell from llm.py")
+    console.print("Farewell from llm.py")
 
 except Exception as e:
     console.log(f"Error occurred: {e}")
