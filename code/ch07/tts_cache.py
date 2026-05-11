@@ -10,6 +10,7 @@ import time
 import sys
 from gpiozero import LED
 import sounddevice as sd
+from rich.console import Console
 
 running = True
 led = LED(25)
@@ -70,8 +71,13 @@ mic_transcriber.add_listener(recogniser)
 mic_transcriber.start()
 
 say('Say "quit" to stop...')
+console = Console()
 while running:
     time.sleep(0.1)
+    while tts.is_talking():
+        with console.status("Synthesizing and playing audio..."):
+            time.sleep(0.1)
+
 
 mic_transcriber.stop()
 mic_transcriber.close()
