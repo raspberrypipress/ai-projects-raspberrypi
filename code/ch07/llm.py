@@ -37,10 +37,19 @@ try:
         print(f"User input: {text}", file=sys.stderr)
         messages.append(msg)
 
-        r = llm.generate_all(prompt=messages, 
-                             temperature=0.1,
-                             seed=42,
-                             max_generated_tokens=512)
+        # r = llm.generate_all(prompt=messages, 
+        #                      temperature=0.1,
+        #                      seed=42,
+        #                      max_generated_tokens=512)
+
+        r = ""
+        with llm.generate(prompt=messages, 
+                          temperature=0.1,
+                          seed=42,
+                          max_generated_tokens=512) as gen:
+            for token in gen:
+                print(token, end='.', flush=True)
+                r += token
 
         r = r.split(". [{'type'")[0]
         r = r.replace("<|im_end|>", "")
