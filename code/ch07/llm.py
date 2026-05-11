@@ -11,6 +11,7 @@ from hailo_apps.python.core.common.defines \
 from pathlib import Path
 import sys
 import signal
+from rich.progress import track
 
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 model_name = "Qwen3-1.7B-Instruct"
@@ -37,17 +38,12 @@ try:
         print(f"User input: {text}", file=sys.stderr)
         messages.append(msg)
 
-        # r = llm.generate_all(prompt=messages, 
-        #                      temperature=0.1,
-        #                      seed=42,
-        #                      max_generated_tokens=512)
-
         r = ""
         with llm.generate(prompt=messages, 
                           temperature=0.1,
                           seed=42,
                           max_generated_tokens=512) as gen:
-            for token in gen:
+            for token in track(gen):
                 print(token, end='.', flush=True)
                 r += token
 
