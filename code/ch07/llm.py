@@ -11,8 +11,9 @@ from hailo_apps.python.core.common.defines \
 from pathlib import Path
 import sys
 import signal
-from rich.progress import track
+from rich.console import Console
 
+console = Console()
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 model_name = "Qwen3-1.7B-Instruct"
 
@@ -43,8 +44,9 @@ try:
                           temperature=0.1,
                           seed=42,
                           max_generated_tokens=512) as gen:
-            for token in track(gen):
-                r += token
+            with console.status("[bold green]Thinking..."):
+                for token in gen:
+                    r += token
 
         r = r.split(". [{'type'")[0]
         r = r.replace("<|im_end|>", "")
