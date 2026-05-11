@@ -36,7 +36,7 @@ try:
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     for text in sys.stdin:
         msg = message_formatter.messages_user(text.strip())
-        console.log(f"User input: {text}")
+        console.log(f"User input: {text.strip()}")
         messages.append(msg)
 
         r = ""
