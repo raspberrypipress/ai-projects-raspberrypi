@@ -36,14 +36,13 @@ try:
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     for text in sys.stdin:
         msg = message_formatter.messages_user(text.strip())
-        console.log(f"User input: {text.strip()}")
         messages.append(msg)
 
         r = ""
         with llm.generate(prompt=messages, 
                           temperature=0.1,
                           seed=42,
-                          max_generated_tokens=512) as gen:
+                          max_generated_tokens=1024) as gen:
             with console.status("[bold green]Thinking..."):
                 for token in gen:
                     r += token
@@ -53,7 +52,8 @@ try:
         print(r)
         response = message_formatter.messages_assistant(r)
         messages.append(response)
-        context_manager.print_context_usage(llm)
+        context_manager.print_context_usage(llm, 
+                                            show_always=True)
     console.print("Farewell from llm.py")
 
 except Exception as e:
