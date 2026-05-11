@@ -44,7 +44,6 @@ try:
                           seed=42,
                           max_generated_tokens=512) as gen:
             for token in track(gen):
-                print(token, end='.', flush=True)
                 r += token
 
         r = r.split(". [{'type'")[0]
