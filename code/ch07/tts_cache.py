@@ -10,6 +10,7 @@ import time
 import sys
 from gpiozero import LED
 import sounddevice as sd
+import numpy as np
 
 running = True
 led = LED(25)
@@ -20,6 +21,8 @@ def say(text):
     if text not in tts_cache:
         print(f"Synthesizing: {text}")
         audio, sample_rate = tts.synthesize(text)
+        silence = np.zeros(int(0.5 * sample_rate))
+        audio = np.concatenate([audio, silence])
         tts_cache[text] = {"audio": audio,
                            "rate": sample_rate}
 
