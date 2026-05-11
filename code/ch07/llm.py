@@ -15,7 +15,8 @@ from rich.console import Console
 
 console = Console()
 signal.signal(signal.SIGINT, signal.SIG_IGN)
-model_name = "Qwen3-1.7B-Instruct"
+# model_name = "Qwen3-1.7B-Instruct"
+model_name = "Qwen2-1.5B-Instruct"
 
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
 print(f"Using model {hef_path}", file=sys.stderr)
@@ -26,11 +27,10 @@ try:
     params = VDevice.create_params()
     params.group_id = SHARED_VDEVICE_GROUP_ID
     vdevice = VDevice(params)
-    print("Hailo device initialized. Loading model...", 
-            file=sys.stderr)
+    print("Loading model...", file=sys.stderr)
 
     llm = LLM(vdevice, str(hef_path))
-    print("Model loaded successfully", file=sys.stderr )
+    print("Model loaded.", file=sys.stderr )
 
     prompt = "You are a helpful assistant."
     messages = [message_formatter.messages_system(prompt)]
@@ -47,7 +47,7 @@ try:
             with console.status("[bold green]Thinking..."):
                 for token in gen:
                     r += token
-
+        print(f"Raw response: {r}", file=sys.stderr)
         r = r.split(". [{'type'")[0]
         r = r.replace("<|im_end|>", "")
         print(r, file=sys.stderr)
