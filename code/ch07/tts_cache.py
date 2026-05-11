@@ -22,7 +22,7 @@ def say(text):
         print(f"Synthesizing: {text}")
         audio, sample_rate = tts.synthesize(text)
         silence = np.zeros(int(0.5 * sample_rate))
-        audio = np.concatenate([audio, silence])
+        audio = np.concatenate([silence, audio])
         tts_cache[text] = {"audio": audio,
                            "rate": sample_rate}
 
