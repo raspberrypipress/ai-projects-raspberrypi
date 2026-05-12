@@ -37,20 +37,18 @@ context_manager.add_to_context(llm, [sys_message])
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 console.print("Ready.")
 try:
-    user_msg = None
     for text in sys.stdin:
 
         if context_manager.is_context_full(llm):
             console.print("Warning: Context full, clearing.")
             llm.clear_context()
-            context_manager.add_to_context(llm, [sys_message,
-                                                 user_msg])
+            context_manager.add_to_context(llm, [sys_message])
 
-        user_msg = message_formatter.messages_user(text.strip())
+        msg = message_formatter.messages_user(text.strip())
 
         # Generate the response.
         r = ""
-        with llm.generate(prompt=[user_msg], 
+        with llm.generate(prompt=[msg], 
                           temperature=0.8) as gen:
             with console.status("[bold green]Thinking..."):
                 for token in gen:
