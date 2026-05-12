@@ -13,19 +13,23 @@ from tts_piper import TTSApp
 running = True
 led = LED(25)
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
+def say(text):
+    mic_transcriber.stop()
+    say(text)
+    mic_transcriber.start()
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
-    tts_app.speak("LED turned on.")
+    say("LED turned on.")
 
 def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
-    tts_app.speak("LED turned off.")
+    say("LED turned off.")
 
 def quit(trigger: str, utterance: str, similarity: float):
     global running
     running = False
-    tts_app.speak("I'm glad we had this little talk.")
+    say("I'm glad we had this little talk.")
 
 # Load the embedding model for intent recognition.
 embeddings_path, embeddings_arch = get_embedding_model(
@@ -55,7 +59,7 @@ mic_transcriber = MicTranscriber(model_path=model_path,
 mic_transcriber.add_listener(recogniser)
 mic_transcriber.start()
 
-tts_app.speak('Say "quit" to stop...')
+say('Say "quit" to stop...')
 while running:
     time.sleep(0.1)
 
