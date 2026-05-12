@@ -48,9 +48,8 @@ class LLMApp:
         msg = message_formatter.messages_user(user_input)
         r = ""
         try:
-            with self.console.status("[blue]Working"):
-                for token in self.llm.generate(prompt=[msg], 
-                                               temperature=0.8):
+            with self.console.status("[blue]Generating..."):
+                for token in self.llm.generate(prompt=[msg]):
                     r += token
 
         except Exception as e:
@@ -75,4 +74,5 @@ if __name__ == "__main__":
     for text in sys.stdin:
         response = app.generate(text.strip())
         output.print(response)
+
     diags.print("Farewell from llm.py")
