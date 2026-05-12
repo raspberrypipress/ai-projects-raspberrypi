@@ -14,8 +14,8 @@ from pathlib import Path
 import sys
 import signal
 
-diagnostics = Console(stderr=True, style="magenta")
-output = Console(style="cyan")
+diagnostics = Console(stderr=True, style="dark_red")
+output = Console(style="cornflower_blue")
 
 model_name = "Qwen2-1.5B-Instruct"
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
