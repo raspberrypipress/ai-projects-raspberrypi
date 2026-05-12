@@ -14,6 +14,7 @@ from pathlib import Path
 import sys
 import signal
 
+# Set up some rich consoles for diagnostics and output.
 diagnostics = Console(stderr=True, style="purple")
 output = Console(style="dark_cyan")
 
@@ -40,8 +41,8 @@ diagnostics.print("Ready.")
 try:
     for text in sys.stdin:
 
-        if context_manager.is_context_full(llm):
-            diagnostics.print("Warning: Context full, clearing.")
+        if context_manager.is_context_full(llm, 0.90):
+            diagnostics.print("Context full, clearing.")
             llm.clear_context()
             context_manager.add_to_context(llm, [sys_message])
 
@@ -51,7 +52,8 @@ try:
         r = ""
         with llm.generate(prompt=[msg], 
                           temperature=0.8) as gen:
-            with diagnostics.status("[green]Thinking...[/green]"):
+            with diagnostics.status("Processing...",
+                                    style="green") as status:
                 for token in gen:
                     r += token
 
