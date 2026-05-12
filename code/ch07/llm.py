@@ -5,6 +5,7 @@ from hailo_apps.python.gen_ai_apps.gen_ai_utils.llm_utils \
         message_formatter,
         streaming,
         agent_utils,
+        context_manager,
     )
 from hailo_apps.python.core.common.defines \
     import SHARED_VDEVICE_GROUP_ID
@@ -12,13 +13,6 @@ from rich.console import Console
 from pathlib import Path
 import sys
 import signal
-
-def init_conversation(llm):
-    llm.clear_context()
-    prompt = "You are a helpful assistant."
-    messages = [message_formatter.messages_system(prompt)]
-    return messages
-
 
 console = Console(stderr=True)
 
@@ -34,28 +28,25 @@ vdevice = VDevice(params)
 console.print("Loading model...")
 llm = LLM(vdevice, str(hef_path))
 
-messages = init_conversation(llm)
+sys_prompt = "You are a helpful assistant."
+sys_message = message_formatter.messages_system(sys_prompt)
+llm.add_to_context(sys_message)
+
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 console.print("Ready.")
 try:
     for text in sys.stdin:
 
-        # Check context usage and clear if full
-        ctx_max = llm.max_context_capacity()
-        ctx_used = llm.get_context_usage_size()
-        if ctx_used >= ctx_max:
+        if context_manager.is_context_full(llm):
             console.print("Warning: Context full, clearing.")
-            messages = init_conversation(llm)
+            llm.clear_context()
 
         msg = message_formatter.messages_user(text.strip())
-        messages.append(msg)
 
         # Generate the response.
         r = ""
-        with llm.generate(prompt=messages, 
-                          temperature=0.1,
-                          seed=42,
-                          max_generated_tokens=1024) as gen:
+        with llm.generate(prompt=[msg], 
+                          temperature=0.8) as gen:
             with console.status("[bold green]Thinking..."):
                 for token in gen:
                     r += token
@@ -63,8 +54,6 @@ try:
         # Clean response and print, then add it to the messages
         r = streaming.clean_response(r)
         print(r)
-        response_msg = message_formatter.messages_assistant(r)
-        messages.append(response_msg)
 
     console.print("Farewell from llm.py")
 
