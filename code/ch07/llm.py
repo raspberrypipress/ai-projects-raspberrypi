@@ -30,7 +30,7 @@ llm = LLM(vdevice, str(hef_path))
 
 sys_prompt = "You are a helpful assistant."
 sys_message = message_formatter.messages_system(sys_prompt)
-context_manager.add_to_context(llm, sys_message)
+context_manager.add_to_context(llm, [sys_message])
 
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 console.print("Ready.")
