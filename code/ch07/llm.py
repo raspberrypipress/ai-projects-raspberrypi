@@ -37,6 +37,15 @@ messages = init_conversation(llm)
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 try:
     for text in sys.stdin:
+
+        # Check context usage and clear if full
+        ctx_max = llm.max_context_capacity()
+        ctx_used = llm.get_context_usage_size()
+        console.print(f"Context usage: {ctx_used}/{ctx_max}")
+        if ctx_used >= ctx_max:
+            console.print("Warning: Context full, clearing.")
+            messages = init_conversation(llm)
+
         msg = message_formatter.messages_user(text.strip())
         messages.append(msg)
 
@@ -55,14 +64,6 @@ try:
         print(r)
         response_msg = message_formatter.messages_assistant(r)
         messages.append(response_msg)
-
-        # Check context usage and clear if full
-        ctx_max = llm.max_context_capacity()
-        ctx_used = llm.get_context_usage_size()
-        console.print(f"Context usage: {ctx_used}/{ctx_max}")
-        if ctx_used >= ctx_max:
-            console.print("Warning: Context full, clearing.")
-            messages = init_conversation(llm)
 
     console.print("Farewell from llm.py")
 
