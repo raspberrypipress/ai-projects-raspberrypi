@@ -14,9 +14,9 @@ running = True
 led = LED(25)
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 def say(text):
-    mic_transcriber.stop()
+    mic_transcriber._should_listen = False
     tts_app.speak(text)
-    mic_transcriber.start()
+    mic_transcriber._should_listen = True
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
