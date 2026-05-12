@@ -14,7 +14,7 @@ from pathlib import Path
 import sys
 import signal
 
-diagnostics = Console(stderr=True, style="deep_pink4")
+diagnostics = Console(stderr=True, style="purple")
 output = Console(style="cornflower_blue")
 
 model_name = "Qwen2-1.5B-Instruct"
