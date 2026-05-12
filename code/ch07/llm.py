@@ -15,7 +15,7 @@ import sys
 import signal
 
 diagnostics = Console(stderr=True, style="purple")
-output = Console(style="cornflower_blue")
+output = Console(style="light_steel_blue")
 
 model_name = "Qwen2-1.5B-Instruct"
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
