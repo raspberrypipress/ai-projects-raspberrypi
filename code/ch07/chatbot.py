@@ -23,13 +23,15 @@ def say(text):
 
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
-        mic_transcriber._should_listen = False
+        # mic_transcriber._should_listen = False
+        mic_transcriber.stop()
         diags.print("Stopped listening for transcription to speak response.")
         diags.print(f"Transcribed: {event.line.text}")
         response = llm.generate(event.line.text)
         diags.print(f"LLM response: {response}")
         say(response)
-        mic_transcriber._should_listen = True
+        # mic_transcriber._should_listen = True
+        mic_transcriber.start()
         diags.print("Resumed listening for transcription.")
 
 
