@@ -14,16 +14,16 @@ led = LED(25)
 
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
-    print("LED turned on.")
+    print("LED turned on.", flush=True)
 
 def led_off(trigger: str, utterance: str, similarity: float):
     led.off()
-    print("LED turned off.")
+    print("LED turned off.", flush=True)
 
 def quit(trigger: str, utterance: str, similarity: float):
     global running
     running = False
-    print("I'm glad we had this little talk.")
+    print("I'm glad we had this little talk.", flush=True)
 
 
 # Load the embedding model for intent recognition.
@@ -54,7 +54,7 @@ mic_transcriber = MicTranscriber(model_path=model_path,
 mic_transcriber.add_listener(recogniser)
 mic_transcriber.start()
 
-print('Say "quit" to stop...', file=sys.stderr)
+print('Say "quit" to stop...', flush=True)
 while running:
     time.sleep(0.1)
 

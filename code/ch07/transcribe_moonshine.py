@@ -10,7 +10,7 @@ import sys
 # Define a listener to display completed lines of transcription.
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
-        print(event.line.text)
+        print(event.line.text, flush=True)
 
 
 # Load the model for the language we want to transcribe.
@@ -25,7 +25,7 @@ mic_transcriber = MicTranscriber(model_path=model_path,
                                  model_arch=model_arch,
                                  options=options)
 
-# Add the listener to the transcriber, and start it.
+# Add the listener to the transcriber and start it.
 mic_transcriber.add_listener(FileListener())
 mic_transcriber.start()
 
