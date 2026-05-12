@@ -1,5 +1,3 @@
-# pip install piper-tts sounddevice
-# python3 -m piper.download_voices en_US-lessac-medium
 import signal
 import sys
 from piper import PiperVoice
@@ -16,7 +14,7 @@ print(f"Ready.", file=sys.stderr)
 for text in sys.stdin:
     for chunk in voice.synthesize(text):
         int_data = np.frombuffer(chunk.audio_int16_bytes,
-                                dtype=np.int16)
+                                 dtype=np.int16)
         stream.write(int_data)
 
 stream.stop()
