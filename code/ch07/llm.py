@@ -51,7 +51,7 @@ try:
         r = ""
         with llm.generate(prompt=[msg], 
                           temperature=0.8) as gen:
-            with diagnostics.status("Thinking..."):
+            with diagnostics.status("[green]Thinking...[/green]"):
                 for token in gen:
                     r += token
 
