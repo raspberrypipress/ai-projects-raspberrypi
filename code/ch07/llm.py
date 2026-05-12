@@ -8,24 +8,10 @@ from hailo_apps.python.gen_ai_apps.gen_ai_utils.llm_utils \
     )
 from hailo_apps.python.core.common.defines \
     import SHARED_VDEVICE_GROUP_ID
+from rich.console import Console
 from pathlib import Path
 import sys
 import signal
-from rich.console import Console
-
-console = Console(stderr=True)
-model_name = "Qwen2-1.5B-Instruct"
-
-hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
-console.print(f"Using model {hef_path}")
-
-params = VDevice.create_params()
-params.group_id = SHARED_VDEVICE_GROUP_ID
-vdevice = VDevice(params)
-console.print("Loading model...")
-
-llm = LLM(vdevice, str(hef_path))
-console.print("Model loaded.")
 
 def init_conversation(llm):
     llm.clear_context()
@@ -33,15 +19,30 @@ def init_conversation(llm):
     messages = [message_formatter.messages_system(prompt)]
     return messages
 
+
+console = Console(stderr=True)
+
+model_name = "Qwen2-1.5B-Instruct"
+hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
+console.print(f"Using model {hef_path}")
+
+console.print("Initialising device...")
+params = VDevice.create_params()
+params.group_id = SHARED_VDEVICE_GROUP_ID
+vdevice = VDevice(params)
+
+console.print("Loading model...")
+llm = LLM(vdevice, str(hef_path))
+
 messages = init_conversation(llm)
 signal.signal(signal.SIGINT, signal.SIG_IGN)
+console.print("Ready.")
 try:
     for text in sys.stdin:
 
         # Check context usage and clear if full
         ctx_max = llm.max_context_capacity()
         ctx_used = llm.get_context_usage_size()
-        console.print(f"Context usage: {ctx_used}/{ctx_max}")
         if ctx_used >= ctx_max:
             console.print("Warning: Context full, clearing.")
             messages = init_conversation(llm)
