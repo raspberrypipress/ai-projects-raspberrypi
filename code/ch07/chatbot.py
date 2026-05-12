@@ -22,11 +22,9 @@ def say(text):
 # FIXME: add a button. Ignore lines unless the button is pressed.
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
-        mic_transcriber.remove_all_listeners()
         diags.print(f"Transcribed: {event.line.text}")
         response = llm.generate(event.line.text)
         say(response)
-        mic_transcriber.add_listener(FileListener())
 
 # Load the model for the language we want to transcribe.
 model_path, model_arch = get_model_for_language(
