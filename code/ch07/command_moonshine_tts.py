@@ -7,7 +7,6 @@ from moonshine_voice import (
     TextToSpeech,
 )
 import time
-import sys
 from gpiozero import LED
 
 running = True

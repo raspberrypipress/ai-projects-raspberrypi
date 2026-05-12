@@ -1,6 +1,6 @@
 import signal
 import sys
-from time import time
+import time
 from piper import PiperVoice
 import numpy as np
 import sounddevice as sd
