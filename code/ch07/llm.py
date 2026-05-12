@@ -15,7 +15,7 @@ import sys
 import signal
 
 diagnostics = Console(stderr=True, style="magenta")
-output = Console(style="bright_green")
+output = Console(style="cyan")
 
 model_name = "Qwen2-1.5B-Instruct"
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
@@ -51,7 +51,7 @@ try:
         r = ""
         with llm.generate(prompt=[msg], 
                           temperature=0.8) as gen:
-            with diagnostics.status("[green]Thinking..."):
+            with diagnostics.status("Thinking..."):
                 for token in gen:
                     r += token
 
