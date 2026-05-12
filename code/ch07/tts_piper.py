@@ -1,4 +1,3 @@
-import signal
 import sys
 import time
 from piper import PiperVoice
@@ -30,7 +29,6 @@ class TTSApp:
 if __name__ == "__main__":
     app = TTSApp("./en_US-lessac-medium.onnx")
 
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
     print(f"Ready.", file=sys.stderr)
     for text in sys.stdin:
         app.speak(text.strip())
