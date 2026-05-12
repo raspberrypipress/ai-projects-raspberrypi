@@ -16,6 +16,7 @@ running = True
 led = LED(25)
 tts = TextToSpeech("en")
 tts_cache = {}
+# This version improves performance by caching synthesised audio.
 def say(text):
     global tts_cache
     if text not in tts_cache:
