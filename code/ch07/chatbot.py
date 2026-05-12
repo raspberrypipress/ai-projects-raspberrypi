@@ -7,15 +7,23 @@ from moonshine_voice import (
 import time
 import sys
 from llm import LLMApp
+from tts_piper import TTSApp
 from rich.console import Console
 
 # Define a listener to display completed lines of transcription.
 diags = Console(stderr=True, style="purple")
 llm = LLMApp("Qwen2-1.5B-Instruct", diags,
              "You are a helpful assistant.")
+
+tts_app = TTSApp("./en_US-lessac-medium.onnx")
+def say(text):
+    mic_transcriber._should_listen = False
+    tts_app.speak(text)
+    mic_transcriber._should_listen = True
+
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
-        print(llm.generate(event.line.text))
+        say(llm.generate(event.line.text))
 
 
 # Load the model for the language we want to transcribe.
