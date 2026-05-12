@@ -23,8 +23,8 @@ def say(text):
 
 ignore_next = False
 class FileListener(TranscriptEventListener):
-    global ignore_next
     def on_line_completed(self, event):
+        global ignore_next
         if ignore_next:
             ignore_next = False
             return
