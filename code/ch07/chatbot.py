@@ -29,11 +29,11 @@ class FileListener(TranscriptEventListener):
             ignore_next = False
             return
 
-        mic_transcriber._should_listen = False
+        mic_transcriber.stop()
         diags.print(f"Transcribed: {event.line.text}")
         response = llm.generate(event.line.text)
         say(response)
-        mic_transcriber._should_listen = True
+        mic_transcriber.start()
         ignore_next = True
 
 # Load the model for the language we want to transcribe.
