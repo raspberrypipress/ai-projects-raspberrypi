@@ -52,7 +52,7 @@ try:
         r = ""
         with llm.generate(prompt=[msg], 
                           temperature=0.8) as gen:
-            with diags.status("[blue]Working[/blue]") as status:
+            with diags.status("[blue]Working") as status:
                 for token in gen:
                     r += token
 
