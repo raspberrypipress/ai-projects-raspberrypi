@@ -48,9 +48,9 @@ class LLMApp:
         msg = message_formatter.messages_user(user_input)
         r = ""
         try:
-            for token in self.llm.generate(prompt=[msg], 
-                                           temperature=0.8):
-                with self.console.status("[blue]Working") as status:
+            with self.console.status("[blue]Working"):
+                for token in self.llm.generate(prompt=[msg], 
+                                               temperature=0.8):
                     r += token
 
         except Exception as e:
