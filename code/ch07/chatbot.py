@@ -17,17 +17,17 @@ llm = LLMApp("Qwen2-1.5B-Instruct", diags,
 
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 def say(text):
-    mic_transcriber._should_listen = False
+    mic_transcriber.stop()
     tts_app.speak(text)
-    mic_transcriber._should_listen = True
+    mic_transcriber.start()
 
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
-        mic_transcriber.stop()
+        # mic_transcriber.stop()
         diags.print(f"Transcribed: {event.line.text}")
         response = llm.generate(event.line.text)
         say(response)
-        mic_transcriber.start()
+        # mic_transcriber.start()
 
 # Load the model for the language we want to transcribe.
 model_path, model_arch = get_model_for_language(
