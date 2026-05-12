@@ -23,8 +23,12 @@ def say(text):
 
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
+        mic_transcriber._should_listen = False
         diags.print(f"Transcribed: {event.line.text}")
-        say(llm.generate(event.line.text))
+        response = llm.generate(event.line.text)
+        diags.print(f"LLM response: {response}")
+        say(response)
+        mic_transcriber._should_listen = True
 
 
 # Load the model for the language we want to transcribe.
