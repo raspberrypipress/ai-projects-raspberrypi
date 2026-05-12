@@ -14,33 +14,34 @@ from pathlib import Path
 import sys
 import signal
 
-console = Console(stderr=True)
+diagnostics = Console(stderr=True, style="magenta")
+output = Console(style="bright_green")
 
 model_name = "Qwen2-1.5B-Instruct"
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
-console.print(f"Using model {hef_path}")
+diagnostics.print(f"Using model {hef_path}")
 
-console.print("Initialising device...")
+diagnostics.print("Initialising device...")
 params = VDevice.create_params()
 params.group_id = SHARED_VDEVICE_GROUP_ID
 vdevice = VDevice(params)
 
-console.print("Loading model...")
+diagnostics.print("Loading model...")
 llm = LLM(vdevice, str(hef_path))
 
 # Add system prompt to the LLM's context.
-console.print("Initialising model...")
+diagnostics.print("Initialising model...")
 sys_prompt = "You are a helpful assistant."
 sys_message = message_formatter.messages_system(sys_prompt)
 context_manager.add_to_context(llm, [sys_message])
 
 signal.signal(signal.SIGINT, signal.SIG_IGN)
-console.print("Ready.")
+diagnostics.print("Ready.")
 try:
     for text in sys.stdin:
 
         if context_manager.is_context_full(llm):
-            console.print("Warning: Context full, clearing.")
+            diagnostics.print("Warning: Context full, clearing.")
             llm.clear_context()
             context_manager.add_to_context(llm, [sys_message])
 
@@ -50,18 +51,18 @@ try:
         r = ""
         with llm.generate(prompt=[msg], 
                           temperature=0.8) as gen:
-            with console.status("[bold green]Thinking..."):
+            with diagnostics.status("[green]Thinking..."):
                 for token in gen:
                     r += token
 
         # Clean response and print it.
         r = streaming.clean_response(r)
-        print(r)
+        output.print(r)
 
-    console.print("Farewell from llm.py")
+    diagnostics.print("Farewell from llm.py")
 
 except Exception as e:
-    console.log(f"Error occurred: {e}")
+    diagnostics.log(f"Error occurred: {e}")
     sys.exit(1)
 
 finally:
