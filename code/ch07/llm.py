@@ -14,35 +14,35 @@ from pathlib import Path
 import sys
 import signal
 
-# Set up some rich consoles for diagnostics and output.
-diagnostics = Console(stderr=True, style="purple")
+# Set up some rich consoles for diags and output.
+diags = Console(stderr=True, style="purple")
 output = Console(style="dark_cyan")
 
 model_name = "Qwen2-1.5B-Instruct"
 hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
-diagnostics.print(f"Using model {hef_path}")
+diags.print(f"Using model {hef_path}")
 
-diagnostics.print("Initialising device...")
+diags.print("Initialising device...")
 params = VDevice.create_params()
 params.group_id = SHARED_VDEVICE_GROUP_ID
 vdevice = VDevice(params)
 
-diagnostics.print("Loading model...")
+diags.print("Loading model...")
 llm = LLM(vdevice, str(hef_path))
 
 # Add system prompt to the LLM's context.
-diagnostics.print("Initialising model...")
+diags.print("Initialising model...")
 sys_prompt = "You are a helpful assistant."
 sys_message = message_formatter.messages_system(sys_prompt)
 context_manager.add_to_context(llm, [sys_message])
 
 signal.signal(signal.SIGINT, signal.SIG_IGN)
-diagnostics.print("Ready.")
+diags.print("Ready.")
 try:
     for text in sys.stdin:
 
         if context_manager.is_context_full(llm, 0.90):
-            diagnostics.print("Context full, clearing.")
+            diags.print("Context full, clearing.")
             llm.clear_context()
             context_manager.add_to_context(llm, [sys_message])
 
@@ -52,8 +52,7 @@ try:
         r = ""
         with llm.generate(prompt=[msg], 
                           temperature=0.8) as gen:
-            with diagnostics.status("Processing...",
-                                    style="green") as status:
+            with diags.status("[blue]Working[/blue]") as status:
                 for token in gen:
                     r += token
 
@@ -61,10 +60,10 @@ try:
         r = streaming.clean_response(r)
         output.print(r)
 
-    diagnostics.print("Farewell from llm.py")
+    diags.print("Farewell from llm.py")
 
 except Exception as e:
-    diagnostics.log(f"Error occurred: {e}")
+    diags.log(f"Error occurred: {e}")
     sys.exit(1)
 
 finally:
