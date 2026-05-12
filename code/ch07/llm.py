@@ -30,24 +30,27 @@ llm = LLM(vdevice, str(hef_path))
 
 # Add system prompt to the LLM's context.
 console.print("Initialising model...")
-sys_prompt = "You are a helpful assistant who loves puns."
+sys_prompt = "You are a helpful assistant."
 sys_message = message_formatter.messages_system(sys_prompt)
 context_manager.add_to_context(llm, [sys_message])
 
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 console.print("Ready.")
 try:
+    user_msg = None
     for text in sys.stdin:
 
         if context_manager.is_context_full(llm):
             console.print("Warning: Context full, clearing.")
             llm.clear_context()
+            context_manager.add_to_context(llm, [sys_message,
+                                                 user_msg])
 
-        msg = message_formatter.messages_user(text.strip())
+        user_msg = message_formatter.messages_user(text.strip())
 
         # Generate the response.
         r = ""
-        with llm.generate(prompt=[msg], 
+        with llm.generate(prompt=[user_msg], 
                           temperature=0.8) as gen:
             with console.status("[bold green]Thinking..."):
                 for token in gen:
