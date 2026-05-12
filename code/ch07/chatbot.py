@@ -23,6 +23,7 @@ def say(text):
 
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
+        diags.print(f"Transcribed: {event.line.text}")
         say(llm.generate(event.line.text))
 
 
