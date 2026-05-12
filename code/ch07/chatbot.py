@@ -21,20 +21,13 @@ def say(text):
     tts_app.speak(text)
     mic_transcriber._should_listen = True
 
-ignore_next = False
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
-        global ignore_next
-        if ignore_next:
-            ignore_next = False
-            return
-
         mic_transcriber.stop()
         diags.print(f"Transcribed: {event.line.text}")
         response = llm.generate(event.line.text)
         say(response)
         mic_transcriber.start()
-        ignore_next = True
 
 # Load the model for the language we want to transcribe.
 model_path, model_arch = get_model_for_language(
