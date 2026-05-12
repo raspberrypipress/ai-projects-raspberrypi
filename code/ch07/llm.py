@@ -50,7 +50,7 @@ class LLMApp:
         try:
             for token in self.llm.generate(prompt=[msg], 
                                            temperature=0.8):
-                with self.console.status("[blue]Working"):
+                with self.console.status("[blue]Working") as status:
                     r += token
 
         except Exception as e:
