@@ -14,57 +14,65 @@ from pathlib import Path
 import sys
 import signal
 
-# Set up some rich consoles for diags and output.
-diags = Console(stderr=True, style="purple")
-output = Console(style="dark_cyan")
+class LLMApp:
 
-model_name = "Qwen2-1.5B-Instruct"
-hef_path = Path.home() / "Downloads" / f"{model_name}.hef"
-diags.print(f"Using model {hef_path}")
+    def __init__(self, model, console, prompt):
 
-diags.print("Initialising device...")
-params = VDevice.create_params()
-params.group_id = SHARED_VDEVICE_GROUP_ID
-vdevice = VDevice(params)
+        self.console = console
 
-diags.print("Loading model...")
-llm = LLM(vdevice, str(hef_path))
+        hef_path = Path.home() / "Downloads" / f"{model}.hef"
+        self.console.print(f"Using model {hef_path}")
 
-# Add system prompt to the LLM's context.
-diags.print("Initialising model...")
-sys_prompt = "You are a helpful assistant."
-sys_message = message_formatter.messages_system(sys_prompt)
-context_manager.add_to_context(llm, [sys_message])
+        self.console.print("Initialising device...")
+        params = VDevice.create_params()
+        params.group_id = SHARED_VDEVICE_GROUP_ID
+        self.vdevice = VDevice(params)
 
-signal.signal(signal.SIGINT, signal.SIG_IGN)
-diags.print("Ready.")
-try:
-    for text in sys.stdin:
+        self.console.print("Loading model...")
+        self.llm = LLM(self.vdevice, str(hef_path))
 
-        if context_manager.is_context_full(llm, 0.90):
-            diags.print("Context full, clearing.")
-            llm.clear_context()
-            context_manager.add_to_context(llm, [sys_message])
+        # Add system prompt to the LLM's context.
+        self.console.print("Initialising model...")
+        sys_message = message_formatter.messages_system(prompt)
+        context_manager.add_to_context(self.llm, [sys_message])
+        self.sys_message = sys_message
 
-        msg = message_formatter.messages_user(text.strip())
+    def generate(self, user_input):
 
-        # Generate the response.
+        if context_manager.is_context_full(self.llm, 0.90):
+            self.console.print("Context full, clearing.")
+            self.llm.clear_context()
+            context_manager.add_to_context(self.llm,
+                                           [self.sys_message])
+
+        msg = message_formatter.messages_user(user_input)
         r = ""
-        with llm.generate(prompt=[msg], 
-                          temperature=0.8) as gen:
-            with diags.status("[blue]Working") as status:
-                for token in gen:
+        try:
+            for token in self.llm.generate(prompt=[msg], 
+                                           temperature=0.8):
+                with self.console.status("[blue]Working"):
                     r += token
 
-        # Clean response and print it.
-        r = streaming.clean_response(r)
-        output.print(r)
+        except Exception as e:
+            self.console.log(f"Error occurred: {repr(e)}")
+            sys.exit(1)
 
+        return streaming.clean_response(r)
+
+    def __del__(self):
+        agent_utils.cleanup_resources(self.llm, self.vdevice)
+
+if __name__ == "__main__":
+    # Set up some rich consoles for diags and output.
+    diags = Console(stderr=True, style="purple")
+    output = Console(style="dark_cyan")
+
+    app = LLMApp("Qwen2-1.5B-Instruct", diags,
+                 "You are a helpful assistant.")
+
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    diags.print("Ready.")
+    for text in sys.stdin:
+        response = app.generate(text.strip())
+        output.print(response)
     diags.print("Farewell from llm.py")
-
-except Exception as e:
-    diags.log(f"Error occurred: {e}")
-    sys.exit(1)
-
-finally:
-    agent_utils.cleanup_resources(llm, vdevice)
