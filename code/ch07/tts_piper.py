@@ -11,7 +11,7 @@ class TTSApp:
         self.voice = PiperVoice.load(model)
         sample_rate = self.voice.config.sample_rate
         self.stream = sd.OutputStream(samplerate=sample_rate,
-                                     channels=1, dtype='int16')
+                                      channels=1, dtype='int16')
         self.stream.start()
         time.sleep(0.5)  # Give the stream a moment to start
 
