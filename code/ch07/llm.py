@@ -3,7 +3,6 @@ from hailo_platform.genai import LLM
 from hailo_apps.python.gen_ai_apps.gen_ai_utils.llm_utils \
     import (
         message_formatter,
-        context_manager,
         agent_utils,
     )
 from hailo_apps.python.core.common.defines \
@@ -46,14 +45,15 @@ try:
             with console.status("[bold green]Thinking..."):
                 for token in gen:
                     r += token
-        console.log(f"Raw response: {r}")
+
         r = r.split(". [{'type'")[0]
         r = r.replace("<|im_end|>", "")
         print(r)
         response = message_formatter.messages_assistant(r)
         messages.append(response)
-        context_manager.print_context_usage(llm, 
-                                            show_always=True)
+        ctx_max = llm.max_context_capacity()
+        ctx_used = llm.get_context_usage_size()
+        console.print(f"Context usage: {ctx_used}/{ctx_max}")
     console.print("Farewell from llm.py")
 
 except Exception as e:
