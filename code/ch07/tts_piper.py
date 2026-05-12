@@ -9,7 +9,7 @@ voice = PiperVoice.load("./en_US-lessac-medium.onnx")
 stream = sd.OutputStream(samplerate=voice.config.sample_rate,
                          channels=1, dtype='int16')
 stream.start()
-time.sleep(0.1)  # Give the stream a moment to start
+time.sleep(0.5)  # Give the stream a moment to start
 
 signal.signal(signal.SIGINT, signal.SIG_IGN)
 print(f"Ready.", file=sys.stderr)
