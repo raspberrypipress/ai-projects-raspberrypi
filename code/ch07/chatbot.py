@@ -9,6 +9,7 @@ import sys
 from llm import LLMApp
 from tts_piper import TTSApp
 from rich.console import Console
+import sounddevice as sd
 
 # Define a listener to display completed lines of transcription.
 diags = Console(stderr=True, style="purple")
@@ -16,28 +17,22 @@ llm = LLMApp("Qwen2-1.5B-Instruct", diags,
              "You are a helpful assistant.")
 
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
-speaking = False
 def say(text):
-    global speaking
-    speaking = True
+    tts_app._should_listen = False
     tts_app.speak(text)
-    speaking = False
+
+    # Clear the input buffer to avoid transcribing TTS audio.
+    stream = mic_transcriber._sd_stream
+    with stream:
+        available = stream.read_available()
+        if available > 0:
+            stream.read(available)
+    tts_app._should_listen = True
 
 # FIXME: add a button. Ignore lines unless the button is pressed.
 class FileListener(TranscriptEventListener):
-    def __init__(self):
-        self.ignore_lines = []
-        super().__init__()
-
-    def on_line_started(self, event):
-        if speaking:
-            self.ignore_lines.append(event.line.line_id)
 
     def on_line_completed(self, event):
-        if event.line.line_id in self.ignore_lines:
-            diags.print(f"Ignoring line: {event.line.text}")
-            self.ignore_lines.remove(event.line.line_id)
-            return
 
         diags.print(f"Transcribed: {event.line.text}")
         response = llm.generate(event.line.text)
