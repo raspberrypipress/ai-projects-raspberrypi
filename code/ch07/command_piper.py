@@ -31,6 +31,7 @@ def quit(trigger: str, utterance: str, similarity: float):
     running = False
     say("I'm glad we had this little talk.")
 
+
 # Load the embedding model for intent recognition.
 embeddings_path, embeddings_arch = get_embedding_model(
     "embeddinggemma-300m", "q4"
