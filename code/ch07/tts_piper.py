@@ -13,7 +13,6 @@ class TTSApp:
         self.stream = sd.OutputStream(samplerate=sample_rate,
                                       channels=1, dtype='int16')
         self.stream.start()
-        self.sample_rate = sample_rate
         time.sleep(0.5)  # Give the stream a moment to start
 
     def speak(self, text):
