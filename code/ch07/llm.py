@@ -24,21 +24,21 @@ class LLMApp:
         # Add system prompt to the LLM's context.
         self.console.print("Initialising model...")
         self.sysmsg = {"role": "system", "content": prompt}
-        self.initialize_context()
+        self.initialise_context()
 
-    def initialize_context(self):
+    def initialise_context(self):
         self.llm.clear_context()
         for token in self.llm.generate(prompt=[self.sysmsg],
                                        max_generated_tokens=1):
             pass
 
     def generate(self, user_input):
+
         capacity = self.llm.max_context_capacity()
         usage = self.llm.get_context_usage_size()
-
         if usage / capacity > 0.90:
             self.console.print("Context full, clearing.")
-            self.initialize_context()
+            self.initialise_context()
 
         msg = {"role": "user", "content": user_input}
         r = ""
@@ -51,7 +51,8 @@ class LLMApp:
             self.console.log(f"Error occurred: {repr(e)}")
             sys.exit(1)
 
-        return streaming.clean_response(r)
+        # Removing end-of-message token.
+        return r.replace("<|im_end|>", "")
 
     def __del__(self):
         self.llm.clear_context()
