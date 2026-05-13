@@ -19,6 +19,7 @@ llm = LLMApp("Qwen2-1.5B-Instruct", diags,
 
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 def say(text):
+    diags.print(f"Speaking: {text}")
     tts_app.speak(text)
 
 class FileListener(TranscriptEventListener):
