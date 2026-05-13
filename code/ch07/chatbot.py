@@ -35,6 +35,7 @@ class FileListener(TranscriptEventListener):
 
     def on_line_completed(self, event):
         if event.line.line_id in self.ignore_lines:
+            diags.print(f"Ignoring line: {event.line.text}")
             self.ignore_lines.remove(event.line.line_id)
             return
 
