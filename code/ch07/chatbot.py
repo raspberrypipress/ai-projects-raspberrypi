@@ -9,7 +9,9 @@ import sys
 from llm import LLMApp
 from tts_piper import TTSApp
 from rich.console import Console
-import sounddevice as sd
+from gpiozero import Button
+
+button = Button(2)
 
 # Define a listener to display completed lines of transcription.
 diags = Console(stderr=True, style="purple")
@@ -18,25 +20,14 @@ llm = LLMApp("Qwen2-1.5B-Instruct", diags,
 
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 def say(text):
-    tts_app._should_listen = False
     tts_app.speak(text)
 
-    # Clear the input buffer to avoid transcribing TTS audio.
-    stream = mic_transcriber._sd_stream
-    available = stream.read_available()
-    diags.print(f"Cleared {available} frames from input buffer.")
-    if available > 0:
-        stream.read(available)
-    tts_app._should_listen = True
-
-# FIXME: add a button. Ignore lines unless the button is pressed.
 class FileListener(TranscriptEventListener):
-
     def on_line_completed(self, event):
-
-        diags.print(f"Transcribed: {event.line.text}")
-        response = llm.generate(event.line.text)
-        say(response)
+        if button.is_pressed:
+            diags.print(f"Transcribed: {event.line.text}")
+            response = llm.generate(event.line.text)
+            say(response)
 
 # Load the model for the language we want to transcribe.
 model_path, model_arch = get_model_for_language(
