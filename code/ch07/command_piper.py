@@ -6,27 +6,31 @@ from moonshine_voice import (
     get_embedding_model,
 )
 import time
-import sys
-from gpiozero import LED
+from gpiozero import LED, Button
 from tts_piper import TTSApp
 
 running = True
+button = Button(21)
 led = LED(25)
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 def say(text):
-    mic_transcriber._should_listen = False
     tts_app.speak(text)
-    mic_transcriber._should_listen = True
 
 def led_on(trigger: str, utterance: str, similarity: float):
+    if not button.is_pressed:
+        return
     led.on()
     say("LED turned on.")
 
 def led_off(trigger: str, utterance: str, similarity: float):
+    if not button.is_pressed:
+        return
     led.off()
     say("LED turned off.")
 
 def quit(trigger: str, utterance: str, similarity: float):
+    if not button.is_pressed:
+        return
     global running
     running = False
     say("I'm glad we had this little talk.")
