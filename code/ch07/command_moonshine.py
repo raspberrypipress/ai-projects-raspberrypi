@@ -6,10 +6,10 @@ from moonshine_voice import (
     get_embedding_model,
 )
 import time
-import sys
-from gpiozero import LED
+from gpiozero import LED, Button
 
 running = True
+button = Button(21)
 led = LED(25)
 
 def led_on(trigger: str, utterance: str, similarity: float):

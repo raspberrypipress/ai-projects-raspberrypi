@@ -11,7 +11,7 @@ from tts_piper import TTSApp
 from rich.console import Console
 from gpiozero import Button
 
-button = Button(2)
+button = Button(21)
 
 diags = Console(stderr=True, style="purple")
 llm = LLMApp("Qwen2-1.5B-Instruct", diags,
