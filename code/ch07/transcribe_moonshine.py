@@ -20,7 +20,8 @@ model_path, model_arch = get_model_for_language(
 
 # Configure the transcriber.
 options = {"return_audio_data": False, 
-           "identify_speakers": False}
+           "identify_speakers": False,
+           "vad_threshold": 0.2}
 mic_transcriber = MicTranscriber(model_path=model_path,
                                  model_arch=model_arch,
                                  options=options)

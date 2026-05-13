@@ -50,7 +50,8 @@ model_path, model_arch = get_model_for_language(
     "en", ModelArch.TINY_STREAMING
 )
 options = {"return_audio_data": False, 
-           "identify_speakers": False}
+           "identify_speakers": False,
+           "vad_threshold": 0.2}
 mic_transcriber = MicTranscriber(model_path=model_path,
                                  model_arch=model_arch,
                                  options=options)
