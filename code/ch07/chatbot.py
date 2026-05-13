@@ -9,9 +9,10 @@ import sys
 from llm import LLMApp
 from tts_piper import TTSApp
 from rich.console import Console
-from gpiozero import Button
+from gpiozero import LED, Button
 
 button = Button(21)
+led = LED(25)
 
 diags = Console(stderr=True, style="purple")
 llm = LLMApp("Qwen2-1.5B-Instruct", diags,
@@ -25,9 +26,11 @@ def say(text):
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
         if button.is_pressed:
+            led.on()
             diags.print(f"Transcribed: {event.line.text}")
             response = llm.generate(event.line.text)
             say(response)
+            led.off()
 
 # Load the model for the language we want to transcribe.
 model_path, model_arch = get_model_for_language(
