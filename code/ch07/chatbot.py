@@ -25,6 +25,7 @@ def say(text):
     stream = mic_transcriber._sd_stream
     with stream:
         available = stream.read_available()
+        diags.print(f"Cleared {available} frames from input buffer.")
         if available > 0:
             stream.read(available)
     tts_app._should_listen = True
