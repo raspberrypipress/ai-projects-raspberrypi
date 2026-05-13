@@ -16,12 +16,28 @@ llm = LLMApp("Qwen2-1.5B-Instruct", diags,
              "You are a helpful assistant.")
 
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
+speaking = False
 def say(text):
+    global speaking
+    speaking = True
     tts_app.speak(text)
+    speaking = False
 
 # FIXME: add a button. Ignore lines unless the button is pressed.
 class FileListener(TranscriptEventListener):
+    def __init__(self):
+        self.ignore_lines = []
+        super().__init__()
+
+    def on_line_started(self, event):
+        if speaking:
+            self.ignore_lines.append(event.line.line_id)
+
     def on_line_completed(self, event):
+        if event.line.line_id in self.ignore_lines:
+            self.ignore_lines.remove(event.line.line_id)
+            return
+
         diags.print(f"Transcribed: {event.line.text}")
         response = llm.generate(event.line.text)
         say(response)
