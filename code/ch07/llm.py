@@ -62,14 +62,12 @@ class LLMApp:
 
 
 if __name__ == "__main__":
-    # Set up some rich consoles for diags and output.
     diags = Console(stderr=True, style="purple")
     output = Console(style="dark_cyan")
 
     app = LLMApp("./Qwen2-1.5B-Instruct.hef", diags,
                  "You are a helpful assistant.")
 
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
     diags.print("Ready.")
     for text in sys.stdin:
         response = app.generate(text.strip())
