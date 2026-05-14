@@ -19,7 +19,7 @@ llm = LLMApp("./Qwen2-1.5B-Instruct.hef", diags,
              "You are a helpful assistant.")
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 
-class FileListener(TranscriptEventListener):
+class TextListener(TranscriptEventListener):
     def on_line_completed(self, event):
         if button.is_pressed:
             led.on()
@@ -40,7 +40,7 @@ options = {"return_audio_data": False,
 mic_transcriber = MicTranscriber(model_path=model_path,
                                  model_arch=model_arch,
                                  options=options)
-mic_transcriber.add_listener(FileListener())
+mic_transcriber.add_listener(TextListener())
 mic_transcriber.start()
 
 diags.print("CTRL+C to stop...")

@@ -8,7 +8,7 @@ import time
 import sys
 
 # Define a listener to display completed lines of transcription.
-class FileListener(TranscriptEventListener):
+class TextListener(TranscriptEventListener):
     def on_line_completed(self, event):
         print(event.line.text, flush=True)
 
@@ -27,7 +27,7 @@ mic_transcriber = MicTranscriber(model_path=model_path,
                                  options=options)
 
 # Add the listener to the transcriber and start it.
-mic_transcriber.add_listener(FileListener())
+mic_transcriber.add_listener(TextListener())
 mic_transcriber.start()
 
 # Keep running until the user presses CTRL+C.
