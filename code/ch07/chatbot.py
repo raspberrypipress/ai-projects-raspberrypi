@@ -5,7 +5,6 @@ from moonshine_voice import (
     TranscriptEventListener,
 )
 import time
-import sys
 from llm import LLMApp
 from tts_piper import TTSApp
 from rich.console import Console
@@ -14,13 +13,13 @@ from gpiozero import LED, Button
 button = Button(21)
 led = LED(25)
 
+# Set up the LLM and TTS apps.
 diags = Console(stderr=True, style="purple")
 llm = LLMApp("Qwen2-1.5B-Instruct", diags,
              "You are a helpful assistant.")
-
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
+
 def say(text):
-    diags.print(f"Speaking: {text}")
     tts_app.speak(text)
 
 class FileListener(TranscriptEventListener):
@@ -50,12 +49,12 @@ mic_transcriber.add_listener(FileListener())
 mic_transcriber.start()
 
 # Keep running until the user presses CTRL+C.
-print("CTRL+C to stop...", file=sys.stderr)
+diags.print("CTRL+C to stop...")
 try:
     while True:
         time.sleep(0.1)
 except KeyboardInterrupt:
-    print("Finished.", file=sys.stderr)
+    diags.print("Finished.")
 finally:
     mic_transcriber.stop()
     mic_transcriber.close()
