@@ -15,7 +15,7 @@ led = LED(25)
 
 # Set up the LLM and TTS apps.
 diags = Console(stderr=True, style="purple")
-llm = LLMApp("Qwen2-1.5B-Instruct", diags,
+llm = LLMApp("./Qwen2-1.5B-Instruct.hef", diags,
              "You are a helpful assistant.")
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 
