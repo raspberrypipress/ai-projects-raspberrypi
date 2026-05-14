@@ -19,16 +19,13 @@ llm = LLMApp("./Qwen2-1.5B-Instruct.hef", diags,
              "You are a helpful assistant.")
 tts_app = TTSApp("./en_US-lessac-medium.onnx")
 
-def say(text):
-    tts_app.speak(text)
-
 class FileListener(TranscriptEventListener):
     def on_line_completed(self, event):
         if button.is_pressed:
             led.on()
             diags.print(f"Transcribed: {event.line.text}")
             response = llm.generate(event.line.text)
-            say(response)
+            tts_app.speak(response)
             led.off()
         else:
             diags.print(f"Skipping: {event.line.text}")
