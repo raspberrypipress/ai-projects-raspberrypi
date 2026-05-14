@@ -43,7 +43,7 @@ mic_transcriber = MicTranscriber(model_path=model_path,
 mic_transcriber.add_listener(TextListener())
 mic_transcriber.start()
 
-diags.print("CTRL+C to stop...")
+diags.print("Ready! CTRL+C to stop...")
 try:
     while True:
         time.sleep(0.1)
