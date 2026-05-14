@@ -29,7 +29,8 @@ class LLMApp:
                                        max_generated_tokens=1):
             pass
 
-    def generate(self, user_input, max_tokens=200):
+    def generate(self, user_input, 
+                 max_tokens=200, temperature=0.1):
         # Clear context if we're getting close to the limit.
         capacity = self.llm.max_context_capacity()
         usage = self.llm.get_context_usage_size()
@@ -43,6 +44,7 @@ class LLMApp:
             with self.console.status("[blue]Generating..."):
                 for token in self.llm.generate(
                             prompt=[msg],
+                            temperature=temperature,
                             max_generated_tokens=max_tokens):
                     r += token
 
