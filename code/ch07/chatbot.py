@@ -30,6 +30,8 @@ class FileListener(TranscriptEventListener):
             response = llm.generate(event.line.text)
             say(response)
             led.off()
+        else:
+            diags.print(f"Skipping: {event.line.text}")
 
 # Load the model for the language we want to transcribe.
 model_path, model_arch = get_model_for_language(
