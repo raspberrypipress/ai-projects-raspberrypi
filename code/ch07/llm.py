@@ -30,7 +30,7 @@ class LLMApp:
             pass
 
     def generate(self, user_input, 
-                 max_tokens=200, temperature=0.1):
+                 max_tokens=200, temperature=0.2):
         # Clear context if we're getting close to the limit.
         capacity = self.llm.max_context_capacity()
         usage = self.llm.get_context_usage_size()
