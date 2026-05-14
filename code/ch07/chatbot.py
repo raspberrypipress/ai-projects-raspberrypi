@@ -33,24 +33,19 @@ class FileListener(TranscriptEventListener):
         else:
             diags.print(f"Skipping: {event.line.text}")
 
-# Load the model for the language we want to transcribe.
+# Load the model and set up the transcriber.
 model_path, model_arch = get_model_for_language(
     "en", ModelArch.TINY_STREAMING
 )
-
-# Configure the transcriber.
 options = {"return_audio_data": False, 
            "identify_speakers": False,
            "vad_threshold": 0.2}
 mic_transcriber = MicTranscriber(model_path=model_path,
                                  model_arch=model_arch,
                                  options=options)
-
-# Add the listener to the transcriber and start it.
 mic_transcriber.add_listener(FileListener())
 mic_transcriber.start()
 
-# Keep running until the user presses CTRL+C.
 diags.print("CTRL+C to stop...")
 try:
     while True:
