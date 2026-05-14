@@ -45,7 +45,7 @@ class LLMApp:
         try:
             with self.console.status("[blue]Generating..."):
                 for token in self.llm.generate(prompt=[msg],
-                                    max_generated_tokens=50):
+                                    max_generated_tokens=200):
                     r += token
 
         except Exception as e:
