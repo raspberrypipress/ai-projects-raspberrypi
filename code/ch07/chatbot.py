@@ -21,14 +21,15 @@ tts_app = TTSApp("./en_US-lessac-medium.onnx")
 
 class TextListener(TranscriptEventListener):
     def on_line_completed(self, event):
-        if button.is_pressed:
-            led.on()
-            diags.print(f"Transcribed: {event.line.text}")
-            response = llm.generate(event.line.text)
-            tts_app.speak(response)
-            led.off()
-        else:
+        if not button.is_pressed:
             diags.print(f"Skipping: {event.line.text}")
+            return
+
+        led.on()
+        diags.print(f"Transcribed: {event.line.text}")
+        response = llm.generate(event.line.text)
+        tts_app.speak(response)
+        led.off()
 
 # Load the model and set up the transcriber.
 model_path, model_arch = get_model_for_language(
