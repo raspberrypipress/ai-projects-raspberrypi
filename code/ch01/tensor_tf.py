@@ -14,8 +14,10 @@ matrix = tf.constant([[1, 2], [3, 4]])
 print(matrix.shape) # Output: (2, 2)
 
 # Creating a 3D tensor (e.g., image with 3 colour channels)
-image_tensor = tf.random.uniform(shape=[64, 64, 3])
-print(image_tensor.shape) # Output: (64, 64, 3)
-
+# Produces a 128x128x3 tensor of values between 0 and 1
+image_tensor = tf.random.uniform(shape=[128, 128, 3])
+print(image_tensor.shape) # Output: (128, 128, 3)
 image_array = tf.keras.utils.array_to_img(image_tensor)
+print(image_array.shape)
 image_array.show()
+
