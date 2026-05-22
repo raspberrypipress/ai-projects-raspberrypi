@@ -18,6 +18,5 @@ print(matrix.shape) # Output: (2, 2)
 image_tensor = tf.random.uniform(shape=[128, 128, 3])
 print(image_tensor.shape) # Output: (128, 128, 3)
 image_array = tf.keras.utils.array_to_img(image_tensor)
-print(image_array.shape)
+print(image_array.size) # Output: (128, 128)
 image_array.show()
-
