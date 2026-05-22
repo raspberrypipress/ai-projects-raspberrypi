@@ -13,8 +13,9 @@ matrix = torch.tensor([[1, 2], [3, 4]])
 print(matrix.shape)
 
 # Create a 3D tensor of with height, width, and random RGB values 
-image = torch.rand(3, 64, 64)
+image = torch.rand(3, 128, 128)
+print(image.shape)
 transform = T.ToPILImage()
 img = transform(image)
-print(img)
+print(img.size)
 img.show()
