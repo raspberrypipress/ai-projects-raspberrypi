@@ -11,7 +11,7 @@ pipe = StableDiffusionPipeline.from_pretrained(model,
 pipe = pipe.to("cpu") # Move the model to the CPU
 
 prompt = "an astronaut riding a horse" # Set the prompt
-image = pipe(prompt, num_inference_steps=5, 
+image = pipe(prompt, num_inference_steps=35, 
              width=640, height=640).images[0]
 
 import pdb; pdb.set_trace() # Set a breakpoint here to inspect the image variable
