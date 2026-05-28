@@ -1,6 +1,6 @@
 import os # We need this to expand ~ to your actual home dir
 from diffusers import StableDiffusionPipeline
-from PIL import Image
+import datetime
 
 # The expanded path to the model
 model = os.path.expanduser("~/Models/stable-diffusion-v1-5")
@@ -16,4 +16,6 @@ image = pipe(prompt, num_inference_steps=35,
 
 import pdb; pdb.set_trace() # Set a breakpoint here to inspect the image variable
 
-image.save("astro-horse.png")
+# timecode every output image so they can't overwrite each other
+created = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+image.save("output-" + created + ".png")

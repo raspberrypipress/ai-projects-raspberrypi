@@ -14,4 +14,4 @@ prompt = "an astronaut riding a horse" # Set the prompt
 image = pipe(prompt, num_inference_steps=5,
              width=1024, height=1024).images[0]
 
-image.save("astro-horse_SDXL.png") 
+image.save("astro-horse-SDXL.png") 
