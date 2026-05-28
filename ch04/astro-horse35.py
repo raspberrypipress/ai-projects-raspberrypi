@@ -16,6 +16,6 @@ image = pipe(prompt, num_inference_steps=35,
 
 import pdb; pdb.set_trace() # Set a breakpoint here to inspect the image variable
 
-# timecode every output image so they can't overwrite each other
+# add a timecode so we don't overwrite each image.
 created = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
 image.save("output-" + created + ".png")
