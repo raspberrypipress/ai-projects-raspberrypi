@@ -10,11 +10,8 @@ pipe = StableDiffusionXLPipeline.from_pretrained(model,
                                   torch_dtype=torch.float32,
                                   low_cpu_mem_usage=True)
 pipe = pipe.to("cpu") # Move the model to the CPU
-
 prompt = "an astronaut riding a horse" # Set the prompt
-neg_prompt = "blurry"
-image = pipe(prompt, negative_prompt=neg_prompt,
-             num_inference_steps=5,
+image = pipe(prompt, num_inference_steps=5,
              width=1024, height=1024).images[0]
 
-image.save("astro-horse-SDXL.png")
+image.save("astro-horse_SDXL.png")
