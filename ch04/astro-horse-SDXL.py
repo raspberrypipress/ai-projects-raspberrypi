@@ -2,8 +2,9 @@ import os # We need this to expand ~ to your actual home dir
 from diffusers import StableDiffusionXLPipeline
 import torch # we need this to set the float
 
-# The expanded path to the model
-model = os.path.expanduser("~/Models/stable-diffusion-xl-base-1.0")
+# Get the expanded path to the model
+model_name = "stable-diffusion-xl-base-1.0"
+model = os.path.expanduser(f"~/Models/{model_name}")
 
 # Load the model
 pipe = StableDiffusionXLPipeline.from_pretrained(model,
