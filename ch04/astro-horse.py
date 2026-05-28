@@ -2,7 +2,8 @@ import os # We need this to expand ~ to your actual home dir
 from diffusers import StableDiffusionPipeline
 
 # The expanded path to the model
-model = os.path.expanduser("~/Models/stable-diffusion-v1-5")
+model_name = "stable-diffusion-v1-5"
+model = os.path.expanduser(f"~/Models/{model_name}")
 
 # Load the model
 pipe = StableDiffusionPipeline.from_pretrained(model,
