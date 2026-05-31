@@ -9,3 +9,4 @@ curl --silent http://localhost:8000/api/chat \
     "content": "Translate to French: The cat is on the table."
    }]}
 EOF
+
