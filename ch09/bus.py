@@ -8,4 +8,4 @@ results = model("https://ultralytics.com/images/bus.jpg")
 
 # Visualize the results
 for result in results:
-result.show()
+    result.show()
