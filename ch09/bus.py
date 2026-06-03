@@ -4,7 +4,8 @@ from ultralytics import YOLO
 model = YOLO("yolo26n_ncnn_model")
 
 # Perform object detection on an image
-results = model("https://ultralytics.com/images/bus.jpg")
+results = model("https://ultralytics.com/images/bus.jpg",
+                task="detect")
 
 # Visualize the results
 for result in results:
