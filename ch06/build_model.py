@@ -42,7 +42,7 @@ for index in range(10, len(data)):
 
 estimator = RandomForestClassifier(n_estimators=20, 
                 max_depth=15, max_features=7, random_state=1)
-estimator.fit(windows[0:800], window_res[0:800])
+estimator.fit(windows, window_res)
 
 score = get_scorer('f1')(estimator, windows, window_res)
 print("score is: ",score)

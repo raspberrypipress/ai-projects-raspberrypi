@@ -6,18 +6,18 @@ from time import sleep, ticks_ms
 import machine
 from lsm6ds3 import LSM6DS3, NORMAL_MODE_104HZ # https://github.com/pimoroni/lsm6ds3-micropythonv
 import neopixel
-#from led_helpers import hsv_to_rgb, sparkle
+from led_helpers import hsv_to_rgb, sparkle
 
 multiplier = 1000
 run_sparkle = False
-#np = neopixel.NeoPixel(machine.Pin(2), 10)
+np = neopixel.NeoPixel(machine.Pin(2), 10)
 
 def core1_loop():
     global run_sparkle, np
     while True:
         while not run_sparkle:
             sleep(0.1)
-        #sparkle(np,10,7,3,5,0.9)
+        sparkle(np,10,7,3,5,0.9)
         print("sparkle")
         run_sparkle = False
 
