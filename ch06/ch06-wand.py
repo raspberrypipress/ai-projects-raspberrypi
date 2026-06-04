@@ -6,7 +6,6 @@ from time import sleep, ticks_ms
 import board
 import busio
 import adafruit_lsm303_accel
-import adafruit_lis2mdl
 import neopixel
 from led_helpers import hsv_to_rgb, sparkle
 
@@ -25,7 +24,6 @@ def core1_loop():
 _thread.start_new_thread(core1_loop, ())
 
 i2c = busio.I2C(board.GP17, board.GP16)
-mag = adafruit_lis2mdl.LIS2MDL(i2c)
 accel = adafruit_lsm303_accel.LSM303_Accel(i2c)
 
 print("loading model")
@@ -45,7 +43,7 @@ while True:
     window.append(int(reading[1] * multiplier))
     window.append(int(reading[2] * multiplier))
     model.predict(array.array('h', window), resout)
-    if(resout[1] > 0.50):
+    if(resout[1] > 0.60):
         print(f"flick detected at {ticks_ms()} ",
               f"{resout[1]}% certainty")
         run_sparkle = True
