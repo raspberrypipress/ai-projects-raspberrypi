@@ -41,11 +41,11 @@ print("running")
 while True:
     del window[:3] # Remove the first 3 elements
     reading = accel.acceleration
-    window.append(reading[0] * multiplier)
-    window.append(reading[1] * multiplier)
-    window.append(reading[2] * multiplier)
+    window.append(int(reading[0] * multiplier))
+    window.append(int(reading[1] * multiplier))
+    window.append(int(reading[2] * multiplier))
     model.predict(array.array('h', window), resout)
-    if(resout[1] > 0.60):
+    if(resout[1] > 0.50):
         print(f"flick detected at {ticks_ms()} ",
               f"{resout[1]}% certainty")
         run_sparkle = True
