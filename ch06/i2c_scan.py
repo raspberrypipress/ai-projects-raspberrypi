@@ -9,5 +9,5 @@ if len(devices) == 0:
 else:
     print(f"Found {len(devices)} i2c devices.")
 
-    for device in devices:  
-        print(f"Decimal addr: {device} | Hex addr: {hex(device)}")
+    for dev in devices:
+        print(f"Decimal addr: {dev} | Hex addr: {hex(dev)}")
