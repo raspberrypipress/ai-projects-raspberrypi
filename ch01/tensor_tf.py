@@ -1,4 +1,5 @@
 import tensorflow as tf
+from PIL import Image
 
 # Create a 0-dimensional (or rank 0) tensor
 scalar = tf.constant(42)
