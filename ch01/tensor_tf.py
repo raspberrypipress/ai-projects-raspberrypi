@@ -1,8 +1,3 @@
-from PIL import Image
-# Hack to support tensorflow on Python 3.12 and later
-import sys
-import importlib
-sys.modules['imp'] = importlib
 import tensorflow as tf
 
 # Create a 0-dimensional (or rank 0) tensor
