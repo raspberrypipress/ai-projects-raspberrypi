@@ -1,5 +1,9 @@
 import tensorflow as tf
 from PIL import Image
+# Hack to support tensorflow on Python 3.12 and later
+import sys
+import importlib
+sys.modules['imp'] = importlib
 
 # Create a 0-dimensional (or rank 0) tensor
 scalar = tf.constant(42)
