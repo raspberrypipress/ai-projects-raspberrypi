@@ -1,5 +1,11 @@
+# Alternative stream.py for the LSM6DS3
+# The driver is available at:
+#    https://github.com/pimoroni/lsm6ds3-micropython
+#    Copy src/lsm6ds3.py to /lib on your Pico
+# Connections are otherwise the same as the LSM303AGR shown in the book.
+
 from time import sleep, ticks_ms
-from lsm6ds3 import LSM6DS3, NORMAL_MODE_104HZ # https://github.com/pimoroni/lsm6ds3-micropythonv
+from lsm6ds3 import LSM6DS3, NORMAL_MODE_104HZ
 import machine
 
 button = machine.Pin(0, machine.Pin.IN, machine.Pin.PULL_UP)
@@ -17,4 +23,3 @@ while True:
         button.value(), 
         sep=",")
     sleep(.1)
-
