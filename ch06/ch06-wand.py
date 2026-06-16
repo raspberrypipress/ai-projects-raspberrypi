@@ -28,7 +28,6 @@ accel = adafruit_lsm303_accel.LSM303_Accel(i2c)
 
 print("loading model")
 model = emlearn_trees.new(300, 10000, 200)
-
 with open('flick_model.csv', 'r') as f:
     emlearn_trees.load_model(model, f)
 
