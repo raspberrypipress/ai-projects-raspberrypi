@@ -12,6 +12,7 @@ running = True
 button = Button(21)
 led = LED(25)
 
+
 def led_on(trigger: str, utterance: str, similarity: float):
     led.on()
     print("LED turned on.", flush=True)

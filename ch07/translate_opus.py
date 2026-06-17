@@ -2,7 +2,6 @@ from transformers import MarianMTModel, MarianTokenizer
 import sys
 from nltk.tokenize import sent_tokenize
 import signal
-
 # Load the model and tokenizer.
 mt_model_name = "Helsinki-NLP/opus-mt-en-de"
 tokeniser = MarianTokenizer.from_pretrained(mt_model_name)
