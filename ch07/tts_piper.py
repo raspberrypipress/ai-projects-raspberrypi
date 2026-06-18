@@ -20,7 +20,7 @@ class TTSApp:
             for chunk in self.voice.synthesize(sentence):
                 data = np.frombuffer(chunk.audio_int16_bytes,
                                      dtype=np.int16)
-            self.stream.write(data)
+                self.stream.write(data)
     
     def __del__(self):
         self.stream.stop()
