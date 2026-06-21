@@ -8,7 +8,7 @@ from lsm6ds3 import LSM6DS3, NORMAL_MODE_104HZ
 import neopixel
 from led_helpers import hsv_to_rgb, sparkle
 
-multiplier = 1000
+multiplier = 1
 run_sparkle = False
 np = neopixel.NeoPixel(machine.Pin(2), 10)
 
@@ -18,7 +18,6 @@ def core1_loop():
         while not run_sparkle:
             sleep(0.1)
         sparkle(np,10,7,3,5,0.9)
-        print("sparkle")
         run_sparkle = False
 
 _thread.start_new_thread(core1_loop, ())
@@ -39,11 +38,11 @@ print("running")
 while True:
     del window[:3] # Remove the first 3 elements
     reading = accel.get_readings()
-    window.append(reading[0] * multiplier)
-    window.append(reading[1] * multiplier)
-    window.append(reading[2] * multiplier)
+    window.append(int(reading[0] * multiplier))
+    window.append(int(reading[1] * multiplier))
+    window.append(int(reading[2] * multiplier))
     model.predict(array.array('h', window), resout)
-    if(resout[1] > 0.70):
+    if(resout[1] > 0.65):
         print(f"flick detected at {ticks_ms()} ",
               f"{resout[1]}% certainty")
         run_sparkle = True
