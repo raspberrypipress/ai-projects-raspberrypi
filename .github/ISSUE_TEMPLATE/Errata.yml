@@ -5,7 +5,7 @@ labels: ["errata", "triage"]
 projects: ["raspberraspberrypipress/ai-projects-raspberrypi"]
 assignees:
   - bjepson
-  - benevpi
+  - lucyhattersley
 body:
   - type: markdown
     attributes:
