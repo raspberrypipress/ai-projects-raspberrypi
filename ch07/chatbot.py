@@ -1,6 +1,5 @@
 from moonshine_voice import (
     MicTranscriber,
-    get_model_for_language,
     ModelArch,
     TranscriptEventListener,
 )
@@ -31,17 +30,20 @@ class TextListener(TranscriptEventListener):
         tts_app.speak(response)
         led.off()
 
-# Load the model and set up the transcriber.
-model_path, model_arch = get_model_for_language(
-    "en", ModelArch.TINY_STREAMING
-)
+# Configure the transcriber and specify the model for the 
+# language we want to transcribe
 options = {"return_audio_data": False, 
            "identify_speakers": False,
            "vad_threshold": 0.2}
-mic_transcriber = MicTranscriber(model_path=model_path,
-                                 model_arch=model_arch,
-                                 options=options)
+mic_transcriber = (MicTranscriber()
+                   .language("en")
+                   .model_arch(ModelArch.TINY_STREAMING)
+                   .options(options)
+)
+
+# Add the listener to the transcriber and start it.
 mic_transcriber.add_listener(TextListener())
+mic_transcriber.load()
 mic_transcriber.start()
 
 diags.print("Ready! CTRL+C to stop...")
@@ -52,4 +54,3 @@ except KeyboardInterrupt:
     diags.print("Finished.")
 finally:
     mic_transcriber.stop()
-    mic_transcriber.close()

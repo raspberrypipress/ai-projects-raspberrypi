@@ -36,4 +36,3 @@ except KeyboardInterrupt:
     print("Finished.", file=sys.stderr)
 finally:
     mic_transcriber.stop()
-    mic_transcriber.close()
