@@ -36,6 +36,7 @@ def quit(d):
 recogniser = (AgentFlow()
     .language("en")
     .trigger_threshold(0.6)
+    .beeps(False)
 )
 recogniser.listen_for("turn on the light", led_on)
 recogniser.listen_for("turn off the light", led_off)
