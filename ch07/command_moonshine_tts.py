@@ -9,11 +9,11 @@ led = LED(25)
 
 def led_on(d):
     led.on()
-    yield d.say("LED turned on.")
+    yield d.say("L E D turned on.")
 
 def led_off(d):
     led.off()
-    yield d.say("LED turned off.")
+    yield d.say("L E D turned off.")
 
 def quit(d):
     global running
