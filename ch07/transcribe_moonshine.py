@@ -1,6 +1,5 @@
 from moonshine_voice import (
     MicTranscriber,
-    get_model_for_language,
     ModelArch,
     TranscriptEventListener,
 )
