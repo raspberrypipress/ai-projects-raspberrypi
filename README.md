@@ -8,6 +8,10 @@ If you do not have git installed on your computer, visit https://git-scm.com.
 
 ## ⚠️ Chapter 07 Notice ⚠️
 
-The Moonshine voice project recently changed their API in a way that causes some of the voice examples to fail. Until we release updated versions of this example code, please use the following command to install an older version of Moonshine in your virtual environment:
+After we published this book, the Moonshine voice project changed their API in a way that causes some of the voice examples to no longer work. The examples in the [ch07](./ch07) folder have all been updated to work with the most recent version (0.1.16) of moonshine-voice as of 18 November 2026. The [ch07 README](./ch07/README.md) file describes what we changed. 
+
+Please note that the ch07 examples in this repository now differ quite a bit from what was printed in the book. If you'd like to use the code exactly as you see it in the book, please use the following command to install an older version of Moonshine in your virtual environment:
 
     pip install moonshine-voice==0.0.73
+
+We will update the book in a future printing.
