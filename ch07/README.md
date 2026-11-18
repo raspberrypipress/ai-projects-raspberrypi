@@ -6,3 +6,4 @@ Please note: since the book was originally published, the moonshine-voice API ha
 - `command_moonshine.py`: Switched from `IntentRecognizer` to `AgentFlow`. `MicTranscriber` is no longer needed here.
 - `command_moonshine_tts.py`: Same as `command_moonshine.py` but it's using the moonshine TTS to speak to us.
 - `command_moonshine_tts_cache.py`: Same as `command_moonshine_tts.py` but it's using a TTS object and caching its utterances.
+- `command_piper.py`: Same as `command_moonshine.py` but it's using Piper TTS to speak to us.

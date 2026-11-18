@@ -29,15 +29,13 @@ def quit(d):
         return
     global running
     running = False
-    say("I'm glad we had this little talk.")
+    yield say("I'm glad we had this little talk.")
 
 
 # Set up the agent flow.
 recogniser = (AgentFlow()
     .language("en")
-    .speech(True)
     .trigger_threshold(0.6)
-    .beeps(False)
 )
 recogniser.listen_for("turn on the light", led_on)
 recogniser.listen_for("turn off the light", led_off)
