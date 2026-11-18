@@ -4,3 +4,4 @@ Please note: since the book was originally published, the moonshine-voice API ha
 
 - `transcribe_moonshine.py`: We removed the creation of the `model_path` and `model_arch` variables and we removed all arguments from the `MicTranscriber` constructor (instead using chained methods to configure the `mic_transcriber` object).
 - `command_moonshine.py`: Switched from `IntentRecognizer` to `AgentFlow`. `MicTranscriber` is no longer needed here.
+- `command_moonshine_tts.py`: Same as `command_moonshine.py` but it's using the moonshine TTS to speak to us.

@@ -18,13 +18,13 @@ def led_off(d):
 def quit(d):
     global running
     running = False
-    yield d.say("Goodbye.")
+    yield d.say("I'm glad we had this little talk.")
 
 
 # Set up the agent flow.
 recogniser = (AgentFlow()
     .language("en")
-    .speech(False)
+    .speech(True)
     .trigger_threshold(0.6)
 )
 recogniser.listen_for("turn on the light", led_on)
