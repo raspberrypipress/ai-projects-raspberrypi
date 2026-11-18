@@ -4,11 +4,12 @@ from moonshine_voice import (
 )
 import time
 import sys
-from gpiozero import LED
+from gpiozero import LED, Button
 import sounddevice as sd
 import numpy as np
 
 running = True
+button = Button(21)
 led = LED(25)
 tts = TextToSpeech().language("en_us")
 tts.load()
